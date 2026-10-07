@@ -1,0 +1,62 @@
+export let initialEvents = [
+  {
+    id: "evt-1",
+    title: "Global Tech Innovators Summit 2026",
+    category: "Technology",
+    date: "2026-11-15",
+    time: "09:00 AM - 05:00 PM",
+    location: "San Francisco Convention Center, CA & Virtual",
+    description: "Connect with pioneering leaders, AI researchers, and startup founders exploring the next decade of intelligent computing.",
+    price: 149,
+    capacity: 500,
+    registeredCount: 382,
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
+    organizer: "NextGen Tech Collective",
+    status: "Upcoming"
+  },
+  {
+    id: "evt-2",
+    title: "Aurora Electronic Music Festival",
+    category: "Music & Arts",
+    date: "2026-12-05",
+    time: "04:00 PM - 02:00 AM",
+    location: "Greenwood Waterfront Park, Seattle, WA",
+    description: "An unforgettable evening of immersive visual art, spatial soundscapes, and top global electronic music artists.",
+    price: 85,
+    capacity: 1200,
+    registeredCount: 940,
+    image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+    organizer: "Aurora Productions",
+    status: "Upcoming"
+  },
+  {
+    id: "evt-3",
+    title: "Product Design & UX Masterclass",
+    category: "Design",
+    date: "2026-10-28",
+    time: "10:00 AM - 02:00 PM",
+    location: "Design Hub, Austin, TX",
+    description: "Hands-on workshop exploring design systems, micro-interactions, accessible UI patterns, and AI-accelerated workflows.",
+    price: 49,
+    capacity: 75,
+    registeredCount: 68,
+    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80",
+    organizer: "CraftUX Guild",
+    status: "Filling Fast"
+  },
+  {
+    id: "evt-4",
+    title: "Green Future & Climate Tech Expo",
+    category: "Sustainability",
+    date: "2026-11-20",
+    time: "08:30 AM - 06:00 PM",
+    location: "Metropolitan Expo Center, New York, NY",
+    description: "Showcasing breakthroughs in clean energy, sustainable mobility, circular economy, and regenerative technologies.",
+    price: 0,
+    capacity: 800,
+    registeredCount: 620,
+    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80",
+    organizer: "EcoVision Alliance",
+    status: "Upcoming"
+  }
+];
