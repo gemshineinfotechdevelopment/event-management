@@ -1,6 +1,4 @@
 import React from 'react';
-import EventsNavbar from '../components/events/EventsNavbar';
-import EventsFooter from '../components/events/EventsFooter';
 import EventsCTA from '../components/events/EventsCTA';
 import { 
   Sparkles, 
@@ -8,12 +6,9 @@ import {
   Utensils, 
   Camera, 
   Palette, 
-  Music, 
   Check, 
   ArrowRight,
-  ShieldCheck,
-  Clock,
-  HeartHandshake
+  ShieldCheck
 } from 'lucide-react';
 
 const SERVICES = [
@@ -115,35 +110,11 @@ const SERVICES = [
   }
 ];
 
-export default function ServicesPage({ onNavigateHome, onOpenConsultation, onNavigateGallery, onNavigateEvents, onNavigatePage }) {
-  const handleNavigate = (route) => {
-    if (route === 'services') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (route === 'events') {
-      if (onNavigateEvents) onNavigateEvents();
-      else onNavigateHome('events');
-    } else if (route === 'gallery') {
-      if (onNavigateGallery) onNavigateGallery();
-      else onNavigateHome('gallery');
-    } else if (route === 'about' || route === 'contact') {
-      if (onNavigatePage) onNavigatePage(route);
-      else onNavigateHome(route);
-    } else {
-      onNavigateHome(route);
-    }
-  };
-
+export default function ServicesPage({ onOpenConsultation }) {
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#DFC07B] selection:text-[#0A0E17]">
+    <div className="w-full flex flex-col">
       
-      {/* 1. Navbar */}
-      <EventsNavbar 
-        onNavigate={handleNavigate}
-        onOpenConsultation={() => onOpenConsultation('Services')}
-        activePage="services"
-      />
-
-      {/* 2. Hero Section */}
+      {/* 1. Hero Section */}
       <section className="relative w-full min-h-[460px] flex items-center overflow-hidden bg-[#070C18] pt-24 pb-16">
         <div className="absolute inset-0 z-0">
           <img 
@@ -180,7 +151,7 @@ export default function ServicesPage({ onNavigateHome, onOpenConsultation, onNav
         </div>
       </section>
 
-      {/* 3. Services Grid */}
+      {/* 2. Services Grid */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
         <div className="text-center max-w-xl mx-auto mb-14">
           <span className="text-[11px] font-bold tracking-[0.28em] text-[#8C6B1C] uppercase block mb-2">
@@ -263,11 +234,8 @@ export default function ServicesPage({ onNavigateHome, onOpenConsultation, onNav
 
       </main>
 
-      {/* 4. Bottom CTA */}
+      {/* 3. Bottom CTA */}
       <EventsCTA onOpenConsultation={() => onOpenConsultation('Services')} />
-
-      {/* 5. Footer */}
-      <EventsFooter onNavigate={handleNavigate} />
 
     </div>
   );

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import { 
   HomePage, 
   EventsPage, 
@@ -27,8 +29,8 @@ export default function App() {
       if (hash === 'contact') return 'contact';
       if (hash === 'home') return 'home';
     }
-    // Default to 'events' as requested to showcase the exact reference design
-    return 'events';
+    // Default to 'home'
+    return 'home';
   });
 
   const [consultationOpen, setConsultationOpen] = useState(false);
@@ -135,57 +137,63 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#E2C787] selection:text-[#1C1610]">
       
-      {/* Dynamic View Rendering based on currentView */}
-      {currentView === 'events' ? (
-        <EventsPage 
-          onNavigateHome={handleNavigateToHome}
-          onOpenConsultation={handleOpenConsultation}
-          onNavigateGallery={handleNavigateToGallery}
-          onNavigatePage={handleNavigatePage}
-        />
-      ) : currentView === 'gallery' ? (
-        <GalleryPage 
-          onNavigateHome={handleNavigateToHome}
-          onOpenConsultation={handleOpenConsultation}
-          onNavigateEvents={handleNavigateToEvents}
-          onNavigatePage={handleNavigatePage}
-        />
-      ) : currentView === 'services' ? (
-        <ServicesPage 
-          onNavigateHome={handleNavigateToHome}
-          onOpenConsultation={handleOpenConsultation}
-          onNavigateGallery={handleNavigateToGallery}
-          onNavigateEvents={handleNavigateToEvents}
-          onNavigatePage={handleNavigatePage}
-        />
-      ) : currentView === 'about' ? (
-        <AboutPage 
-          onNavigateHome={handleNavigateToHome}
-          onOpenConsultation={handleOpenConsultation}
-          onNavigateGallery={handleNavigateToGallery}
-          onNavigateEvents={handleNavigateToEvents}
-          onNavigatePage={handleNavigatePage}
-        />
-      ) : currentView === 'contact' ? (
-        <ContactPage 
-          onNavigateHome={handleNavigateToHome}
-          onOpenConsultation={handleOpenConsultation}
-          onNavigateGallery={handleNavigateToGallery}
-          onNavigateEvents={handleNavigateToEvents}
-          onNavigatePage={handleNavigatePage}
-        />
-      ) : (
-        <HomePage 
-          onOpenConsultation={handleOpenConsultation}
-          onOpenSearch={() => setSearchModalOpen(true)}
-          onOpenVideo={() => setVideoModalOpen(true)}
-          onSelectEvent={handleSelectEvent}
-          onOpenLightbox={setLightboxItem}
-          onNavigateGallery={handleNavigateToGallery}
-          onNavigateEvents={handleNavigateToEvents}
-          onNavigatePage={handleNavigatePage}
-        />
-      )}
+      {/* 1. Global Consistent Glassmorphism Header */}
+      <Header 
+        activePage={currentView}
+        onNavigate={handleNavigatePage}
+        onOpenConsultation={() => handleOpenConsultation('Wedding')}
+      />
+
+      {/* 2. Main Page Content - flex-1 pushes Footer to bottom naturally without absolute/fixed positioning */}
+      <main className="flex-1 w-full flex flex-col">
+        {currentView === 'events' ? (
+          <EventsPage 
+            onOpenConsultation={handleOpenConsultation}
+            onNavigateHome={handleNavigateToHome}
+            onNavigateGallery={handleNavigateToGallery}
+            onNavigatePage={handleNavigatePage}
+          />
+        ) : currentView === 'gallery' ? (
+          <GalleryPage 
+            onOpenConsultation={handleOpenConsultation}
+            onNavigateHome={handleNavigateToHome}
+            onNavigateEvents={handleNavigateToEvents}
+            onNavigatePage={handleNavigatePage}
+          />
+        ) : currentView === 'services' ? (
+          <ServicesPage 
+            onOpenConsultation={handleOpenConsultation}
+            onNavigateHome={handleNavigateToHome}
+            onNavigatePage={handleNavigatePage}
+          />
+        ) : currentView === 'about' ? (
+          <AboutPage 
+            onOpenConsultation={handleOpenConsultation}
+            onNavigateHome={handleNavigateToHome}
+            onNavigatePage={handleNavigatePage}
+          />
+        ) : currentView === 'contact' ? (
+          <ContactPage 
+            onOpenConsultation={handleOpenConsultation}
+            onNavigateHome={handleNavigateToHome}
+            onNavigatePage={handleNavigatePage}
+          />
+        ) : (
+          <HomePage 
+            onOpenConsultation={handleOpenConsultation}
+            onNavigateServices={() => handleNavigatePage('services')}
+            onNavigateAbout={() => handleNavigatePage('about')}
+            onNavigateGallery={handleNavigateToGallery}
+            onNavigateEvents={handleNavigateToEvents}
+          />
+        )}
+      </main>
+
+      {/* 3. Global Luxury Navy Footer - Exactly once per page */}
+      <Footer 
+        onNavigate={handleNavigatePage}
+        onOpenConsultation={() => handleOpenConsultation('Wedding')}
+      />
 
       {/* Global Modals accessible across all pages */}
       <ConsultationModal 

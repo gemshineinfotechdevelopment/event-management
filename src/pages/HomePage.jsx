@@ -1,90 +1,37 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
-import CurvedTransition from '../components/CurvedTransition';
-import EventsSection from '../components/EventsSection';
-import WhyChooseUs from '../components/WhyChooseUs';
-import ServicesSection from '../components/ServicesSection';
-import VenueIdeasSection from '../components/VenueIdeasSection';
-import GallerySection from '../components/GallerySection';
-import HowItWorks from '../components/HowItWorks';
-import TestimonialsSection from '../components/TestimonialsSection';
-import FinalCTA from '../components/FinalCTA';
-import Footer from '../components/Footer';
+import HomeHero from '../components/home/HomeHero';
+import HomeServices from '../components/home/HomeServices';
+import HomeAbout from '../components/home/HomeAbout';
+import HomeGallery from '../components/home/HomeGallery';
+import HomeTestimonials from '../components/home/HomeTestimonials';
+import HomeCTA from '../components/home/HomeCTA';
 
 export default function HomePage({
   onOpenConsultation,
-  onOpenSearch,
-  onOpenVideo,
-  onSelectEvent,
-  onOpenLightbox,
+  onNavigateServices,
+  onNavigateAbout,
   onNavigateGallery,
-  onNavigateEvents,
-  onNavigatePage
+  onNavigateEvents
 }) {
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#E2C787] selection:text-[#1C1610]">
-      {/* 1. Header & Navigation */}
-      <Navbar 
-        onOpenConsultation={() => onOpenConsultation('General')}
-        onOpenSearch={onOpenSearch}
-        onNavigateGallery={onNavigateGallery}
-        onNavigateEvents={onNavigateEvents}
-        onNavigatePage={onNavigatePage}
-      />
+    <div className="w-full flex flex-col">
+      {/* 1. Hero Banner */}
+      <HomeHero onOpenConsultation={() => onOpenConsultation('Wedding')} />
 
-      {/* 2. Hero Section */}
-      <Hero 
-        onOpenConsultation={() => onOpenConsultation('Wedding')}
-        onOpenVideo={onOpenVideo}
-      />
+      {/* 2. Services Section ("What We Offer") */}
+      <HomeServices onNavigateServices={onNavigateServices} />
 
-      {/* 3. Curved Transition with Botanical Flourish */}
-      <CurvedTransition />
+      {/* 3. About Eventora Section ("Creating Unforgettable Moments") */}
+      <HomeAbout onNavigateAbout={onNavigateAbout} />
 
-      {/* 4. Our Events Section */}
-      <EventsSection 
-        onSelectEvent={onSelectEvent}
-        onOpenConsultation={() => onOpenConsultation('Custom')}
-      />
+      {/* 4. Gallery Preview Section ("Moments That Tell Beautiful Stories") */}
+      <HomeGallery onNavigateGallery={onNavigateGallery} />
 
-      {/* 5. Why Choose Us Section */}
-      <WhyChooseUs 
-        onOpenConsultation={() => onOpenConsultation('General')}
-      />
+      {/* 5. Testimonials Section ("Trusted by Happy Clients") */}
+      <HomeTestimonials />
 
-      {/* 6. Our Services Section */}
-      <ServicesSection 
-        onOpenConsultation={() => onOpenConsultation('Services')}
-      />
-
-      {/* 7. Featured / Venue Ideas Section */}
-      <VenueIdeasSection 
-        onOpenLightbox={onOpenLightbox}
-        onScrollToGallery={onNavigateGallery}
-      />
-
-      {/* 8. Featured Gallery Section with shortcut to full interactive gallery */}
-      <GallerySection 
-        onOpenLightbox={onOpenLightbox}
-        onOpenConsultation={onNavigateGallery}
-      />
-
-      {/* 9. How It Works Section */}
-      <HowItWorks />
-
-      {/* 10. Testimonials Section */}
-      <TestimonialsSection />
-
-      {/* 11. Final CTA Section */}
-      <FinalCTA 
-        onOpenConsultation={() => onOpenConsultation('Consultation')}
-      />
-
-      {/* 12. Footer Section */}
-      <Footer 
-        onOpenConsultation={() => onOpenConsultation('General')}
-      />
+      {/* 6. Final Call-to-Action Section ("Your Perfect Event Awaits") */}
+      <HomeCTA onOpenConsultation={() => onOpenConsultation('Consultation')} />
     </div>
   );
 }

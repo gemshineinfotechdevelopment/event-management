@@ -1,16 +1,14 @@
 import React, { useState, useMemo } from 'react';
-import EventsNavbar from '../components/events/EventsNavbar';
 import EventsHero from '../components/events/EventsHero';
 import EventCategoryTabs from '../components/events/EventCategoryTabs';
 import EventCard from '../components/events/EventCard';
 import UpcomingEventsSidebar from '../components/events/UpcomingEventsSidebar';
 import EventsCTA from '../components/events/EventsCTA';
-import EventsFooter from '../components/events/EventsFooter';
 import EventDetailsModal from '../components/events/EventDetailsModal';
 
 import { getEventsByCategory } from '../data/eventsPageData';
 
-export default function EventsPage({ onNavigateHome, onOpenConsultation, onNavigateGallery, onNavigatePage }) {
+export default function EventsPage({ onOpenConsultation }) {
   // 'all' is the default active category as shown in the reference image
   const [activeCategory, setActiveCategory] = useState('all');
   
@@ -30,45 +28,19 @@ export default function EventsPage({ onNavigateHome, onOpenConsultation, onNavig
     setSelectedEvent(event);
   };
 
-  const handleNavigate = (route) => {
-    if (route === 'events') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (route === 'gallery') {
-      if (onNavigateGallery) {
-        onNavigateGallery();
-      }
-    } else if (route === 'services' || route === 'about' || route === 'contact') {
-      if (onNavigatePage) {
-        onNavigatePage(route);
-      } else if (onNavigateHome) {
-        onNavigateHome(route);
-      }
-    } else {
-      if (onNavigateHome) {
-        onNavigateHome(route);
-      }
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#DFC07B] selection:text-[#0A0E17]">
+    <div className="w-full flex flex-col">
       
-      {/* 1. Header & Navigation matching reference */}
-      <EventsNavbar 
-        onNavigate={handleNavigate}
-        onOpenConsultation={() => onOpenConsultation('General')}
-      />
-
-      {/* 2. Cinematic Hero Banner */}
+      {/* 1. Cinematic Hero Banner */}
       <EventsHero />
 
-      {/* 3. Event Categories Section with 7 Filter Tabs */}
+      {/* 2. Event Categories Section with 7 Filter Tabs */}
       <EventCategoryTabs 
         activeCategory={activeCategory}
         onSelectCategory={handleSelectCategory}
       />
 
-      {/* 4. Main Event Cards Grid + Right Sidebar Container */}
+      {/* 3. Main Event Cards Grid + Right Sidebar Container */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 w-full">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-8 items-start">
           
@@ -113,18 +85,12 @@ export default function EventsPage({ onNavigateHome, onOpenConsultation, onNavig
         </div>
       </main>
 
-      {/* 5. Bottom Call-To-Action Banner */}
+      {/* 4. Bottom Call-To-Action Banner */}
       <EventsCTA 
         onOpenConsultation={() => onOpenConsultation('Consultation')}
       />
 
-      {/* 6. Dark Navy Footer */}
-      <EventsFooter 
-        onNavigate={handleNavigate}
-        onSelectCategory={handleSelectCategory}
-      />
-
-      {/* 7. Dedicated Event Details Modal */}
+      {/* 5. Dedicated Event Details Modal */}
       <EventDetailsModal
         event={selectedEvent}
         onClose={() => setSelectedEvent(null)}

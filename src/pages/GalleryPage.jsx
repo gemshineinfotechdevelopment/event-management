@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import GalleryNavbar from '../components/gallery/GalleryNavbar';
 import GalleryHero from '../components/gallery/GalleryHero';
 import CategoryFilters from '../components/gallery/CategoryFilters';
 import MainGalleryGrid from '../components/gallery/MainGalleryGrid';
@@ -7,7 +6,6 @@ import EventAlbumsSidebar from '../components/gallery/EventAlbumsSidebar';
 import PhotoPreviewLightbox from '../components/gallery/PhotoPreviewLightbox';
 import GalleryPagination from '../components/gallery/GalleryPagination';
 import GalleryCTA from '../components/gallery/GalleryCTA';
-import GalleryFooter from '../components/gallery/GalleryFooter';
 
 import { 
   CATEGORIES, 
@@ -16,7 +14,7 @@ import {
   ADDITIONAL_PAGES_CARDS 
 } from '../data/galleryData';
 
-export default function GalleryPage({ onNavigateHome, onOpenConsultation, onNavigateEvents, onNavigatePage }) {
+export default function GalleryPage({ onOpenConsultation }) {
   // State for active category: starts at 'wedding' or 'all'
   const [activeCategory, setActiveCategory] = useState('wedding');
   const [currentPage, setCurrentPage] = useState(1);
@@ -130,47 +128,20 @@ export default function GalleryPage({ onNavigateHome, onOpenConsultation, onNavi
     }
   };
 
-  const handleNavigate = (route) => {
-    if (route === 'gallery') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (route === 'events') {
-      if (onNavigateEvents) {
-        onNavigateEvents();
-      } else {
-        onNavigateHome('events');
-      }
-    } else if (route === 'services' || route === 'about' || route === 'contact') {
-      if (onNavigatePage) {
-        onNavigatePage(route);
-      } else {
-        onNavigateHome(route);
-      }
-    } else {
-      onNavigateHome(route);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#DFC07B] selection:text-[#0A0E17]">
+    <div className="w-full flex flex-col">
       
-      {/* 1. Header & Navigation */}
-      <GalleryNavbar 
-        activePage="gallery"
-        onNavigate={handleNavigate}
-        onOpenConsultation={() => onOpenConsultation('Wedding')}
-      />
-
-      {/* 2. Hero Section */}
+      {/* 1. Hero Section */}
       <GalleryHero />
 
-      {/* 3. Event Category Filters */}
+      {/* 2. Event Category Filters */}
       <CategoryFilters 
         categories={CATEGORIES}
         activeCategory={activeCategory}
         onSelectCategory={handleSelectCategory}
       />
 
-      {/* 4. Main Gallery Grid & Event Albums Sidebar */}
+      {/* 3. Main Gallery Grid & Event Albums Sidebar */}
       <main id="gallery-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full scroll-mt-24">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
@@ -196,7 +167,7 @@ export default function GalleryPage({ onNavigateHome, onOpenConsultation, onNavi
 
         </div>
 
-        {/* 5. Interactive Photo Preview / Lightbox Section */}
+        {/* 4. Interactive Photo Preview / Lightbox Section */}
         {previewOpen && (
           <PhotoPreviewLightbox 
             isOpen={previewOpen}
@@ -211,7 +182,7 @@ export default function GalleryPage({ onNavigateHome, onOpenConsultation, onNavi
           />
         )}
 
-        {/* 6. Pagination */}
+        {/* 5. Pagination */}
         <GalleryPagination 
           currentPage={currentPage}
           totalPages={5}
@@ -220,15 +191,9 @@ export default function GalleryPage({ onNavigateHome, onOpenConsultation, onNavi
 
       </main>
 
-      {/* 7. Call-to-Action Section */}
+      {/* 6. Call-to-Action Section */}
       <GalleryCTA 
         onOpenConsultation={() => onOpenConsultation('Custom')}
-      />
-
-      {/* 8. Footer */}
-      <GalleryFooter 
-        onNavigate={handleNavigate}
-        onSelectCategory={(catId) => handleSelectCategory(catId)}
       />
 
       {/* Fullscreen Lightbox Modal if user wants maximized view */}

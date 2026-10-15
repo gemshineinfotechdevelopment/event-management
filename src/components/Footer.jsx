@@ -1,132 +1,114 @@
 import React from 'react';
 import { 
   EventoraLogo, 
-  BotanicalCorner, 
   InstagramIcon, 
   FacebookIcon, 
   YoutubeIcon, 
-  LinkedinIcon 
+  LinkedinIcon,
+  BotanicalCorner 
 } from './common/Icons';
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Heart 
-} from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 
-export default function Footer({ onOpenConsultation }) {
+export default function Footer({ onNavigate, onOpenConsultation }) {
   const quickLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'Events', href: '#events' },
-    { label: 'About Us', href: '#why-us' },
-    { label: 'Services', href: '#services' },
-    { label: 'Gallery', href: '#gallery' },
-    { label: 'Reviews', href: '#reviews' },
-    { label: 'Contact', href: '#contact' }
+    { id: 'home', label: 'Home' },
+    { id: 'events', label: 'Events' },
+    { id: 'services', label: 'Services' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'about', label: 'About Us' },
+    { id: 'contact', label: 'Contact' }
   ];
 
   const ourEvents = [
-    'Wedding',
-    'Engagement',
-    'Birthday',
-    'Corporate',
-    'College Events',
-    'Baby Shower',
-    'Private Party'
+    { id: 'wedding', label: 'Wedding' },
+    { id: 'engagement', label: 'Engagement' },
+    { id: 'birthday', label: 'Birthday' },
+    { id: 'corporate', label: 'Corporate' },
+    { id: 'college', label: 'College' },
+    { id: 'baby-shower', label: 'Baby Shower' },
+    { id: 'private-party', label: 'Private Party' }
   ];
 
-  const scrollTo = (href) => {
-    const id = href.replace('#', '');
-    if (id === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.history.pushState(null, '', '#home');
-      return;
-    }
-    const el = document.getElementById(id);
-    if (el) {
-      const headerOffset = 84;
-      const elementPosition = el.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: Math.max(0, offsetPosition),
-        behavior: 'smooth'
-      });
-      window.history.pushState(null, '', href);
+  const handleLinkClick = (id) => {
+    if (onNavigate) {
+      onNavigate(id);
     }
   };
 
   return (
-    <footer id="contact" className="relative bg-[#F4EFE6] text-[#2C241D] pt-20 pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-[#E5DAC6] scroll-mt-24">
+    <footer className="relative bg-[#060A14] text-[#EFEAE2] pt-16 pb-8 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-[#DFC07B]/30 select-none">
       
-      {/* Decorative Gold Botanical Line Art in Corners */}
-      <div className="absolute top-0 left-0 pointer-events-none opacity-20">
-        <BotanicalCorner className="w-48 h-48 sm:w-60 sm:h-60" />
+      {/* Decorative Gold Botanical flourishes on bottom left & right corners */}
+      <div className="absolute bottom-0 left-0 pointer-events-none opacity-20">
+        <BotanicalCorner className="w-52 h-52 sm:w-72 sm:h-72" />
       </div>
-      <div className="absolute top-0 right-0 pointer-events-none opacity-20">
-        <BotanicalCorner className="w-48 h-48 sm:w-60 sm:h-60" flip={true} />
+      <div className="absolute bottom-0 right-0 pointer-events-none opacity-20">
+        <BotanicalCorner className="w-52 h-52 sm:w-72 sm:h-72" flip={true} />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12">
           
-          {/* Column 1: Brand Info (Left) */}
+          {/* Column 1: Brand Info & Social Icons (lg:col-span-4) */}
           <div className="lg:col-span-4 flex flex-col items-start">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-1 rounded-full bg-white border border-[#DFC07B]/70 shadow-xs">
+            <div 
+              onClick={() => handleLinkClick('home')}
+              className="flex items-center gap-3 cursor-pointer group mb-4"
+              title="Eventora - Home"
+            >
+              <div className="p-1 rounded-full bg-white/5 border border-[#DFC07B]/60 shadow-xs group-hover:scale-105 transition-transform">
                 <EventoraLogo className="w-9 h-9" />
               </div>
               <div className="flex flex-col">
-                <span className="font-serif-luxury text-2xl font-bold tracking-wide text-[#241C14]">
+                <span className="font-serif-luxury text-2xl font-bold tracking-wide text-white group-hover:text-[#DFC07B] transition-colors leading-none">
                   Eventora
                 </span>
-                <span className="text-[10px] font-bold tracking-[0.28em] text-[#8C6B1C] uppercase">
+                <span className="text-[9.5px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase mt-1">
                   EVENTS & BEYOND
                 </span>
               </div>
             </div>
 
-            <p className="font-serif-luxury italic text-sm text-[#8C6B1C] mb-6">
-              Dreams | Designs | Celebrations
-            </p>
-
-            <p className="text-xs text-[#645547] leading-relaxed max-w-sm mb-6">
-              Premier luxury event orchestrators dedicated to conceptualizing and producing extraordinary celebrations across India and destinations worldwide.
-            </p>
-
-            {/* Social Icons */}
-            <div className="flex items-center gap-3">
+            {/* Social Icons row */}
+            <div className="flex items-center gap-2.5 mb-5">
               {[
-                { icon: InstagramIcon, href: '#', label: 'Instagram' },
-                { icon: FacebookIcon, href: '#', label: 'Facebook' },
-                { icon: YoutubeIcon, href: '#', label: 'YouTube' },
-                { icon: LinkedinIcon, href: '#', label: 'LinkedIn' }
+                { icon: FacebookIcon, href: 'https://facebook.com', label: 'Facebook' },
+                { icon: InstagramIcon, href: 'https://instagram.com', label: 'Instagram' },
+                { icon: YoutubeIcon, href: 'https://youtube.com', label: 'YouTube' },
+                { icon: LinkedinIcon, href: 'https://linkedin.com', label: 'LinkedIn' }
               ].map((s, idx) => {
                 const Icon = s.icon;
                 return (
                   <a
                     key={idx}
                     href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
                     aria-label={s.label}
-                    className="w-9 h-9 rounded-full bg-white border border-[#DFC07B]/60 hover:border-[#8C6B1C] hover:bg-[#DFC07B] text-[#8C6B1C] hover:text-[#1C1610] flex items-center justify-center transition-all duration-300 shadow-xs"
+                    className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#DFC07B] text-[#DFC07B] hover:text-[#0A0E17] border border-[#DFC07B]/40 flex items-center justify-center transition-all duration-300 shadow-xs hover:scale-110"
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-3.5 h-3.5" />
                   </a>
                 );
               })}
             </div>
+
+            <p className="text-xs text-[#A0988A] leading-relaxed max-w-xs">
+              Making your special moments extraordinary.
+            </p>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Quick Links (lg:col-span-2) */}
           <div className="lg:col-span-2">
-            <h4 className="font-serif-luxury text-base font-bold text-[#241C14] tracking-wide mb-4 pb-2 border-b border-[#DFC07B]/30 inline-block">
+            <h4 className="font-serif-luxury text-base font-bold text-white tracking-wide mb-4 pb-1.5 border-b border-[#DFC07B]/20 inline-block">
               Quick Links
             </h4>
-            <ul className="flex flex-col gap-2.5">
-              {quickLinks.map((item, idx) => (
-                <li key={idx}>
+            <ul className="flex flex-col gap-2">
+              {quickLinks.map((item) => (
+                <li key={item.id}>
                   <button
-                    onClick={() => scrollTo(item.href)}
-                    className="text-xs text-[#645547] hover:text-[#8C6B1C] transition-colors cursor-pointer"
+                    onClick={() => handleLinkClick(item.id)}
+                    className="text-xs text-[#A0988A] hover:text-[#DFC07B] transition-colors cursor-pointer text-left"
                   >
                     {item.label}
                   </button>
@@ -135,71 +117,58 @@ export default function Footer({ onOpenConsultation }) {
             </ul>
           </div>
 
-          {/* Column 3: Our Events */}
+          {/* Column 3: Our Events (lg:col-span-3) */}
           <div className="lg:col-span-3">
-            <h4 className="font-serif-luxury text-base font-bold text-[#241C14] tracking-wide mb-4 pb-2 border-b border-[#DFC07B]/30 inline-block">
+            <h4 className="font-serif-luxury text-base font-bold text-white tracking-wide mb-4 pb-1.5 border-b border-[#DFC07B]/20 inline-block">
               Our Events
             </h4>
-            <div className="grid grid-cols-2 gap-2.5">
-              {ourEvents.map((evt, idx) => (
-                <div key={idx}>
-                  <a
-                    href="#events"
-                    onClick={(e) => { e.preventDefault(); scrollTo('#events'); }}
-                    className="text-xs text-[#645547] hover:text-[#8C6B1C] transition-colors block"
+            <ul className="flex flex-col gap-2">
+              {ourEvents.map((evt) => (
+                <li key={evt.id}>
+                  <button
+                    onClick={() => handleLinkClick('events')}
+                    className="text-xs text-[#A0988A] hover:text-[#DFC07B] transition-colors cursor-pointer text-left"
                   >
-                    {evt}
-                  </a>
-                </div>
+                    {evt.label}
+                  </button>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Column 4: Get In Touch */}
+          {/* Column 4: Get In Touch (lg:col-span-3) */}
           <div className="lg:col-span-3">
-            <h4 className="font-serif-luxury text-base font-bold text-[#241C14] tracking-wide mb-4 pb-2 border-b border-[#DFC07B]/30 inline-block">
+            <h4 className="font-serif-luxury text-base font-bold text-white tracking-wide mb-4 pb-1.5 border-b border-[#DFC07B]/20 inline-block">
               Get In Touch
             </h4>
-            <ul className="flex flex-col gap-3.5 mb-6">
-              <li className="flex items-center gap-3 text-xs text-[#46382C]">
-                <div className="w-7 h-7 rounded-full bg-white border border-[#DFC07B]/60 shadow-xs flex items-center justify-center text-[#8C6B1C] shrink-0">
-                  <Phone className="w-3.5 h-3.5" />
-                </div>
-                <span>+91 98765 43210</span>
+            <ul className="flex flex-col gap-3">
+              <li className="flex items-center gap-3 text-xs text-[#A0988A]">
+                <Phone className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
+                <a href="tel:+919876543210" className="hover:text-[#DFC07B] transition-colors">
+                  +91 98765 43210
+                </a>
               </li>
-              <li className="flex items-center gap-3 text-xs text-[#46382C]">
-                <div className="w-7 h-7 rounded-full bg-white border border-[#DFC07B]/60 shadow-xs flex items-center justify-center text-[#8C6B1C] shrink-0">
-                  <Mail className="w-3.5 h-3.5" />
-                </div>
-                <span>eventora@gmail.com</span>
+              <li className="flex items-center gap-3 text-xs text-[#A0988A]">
+                <Mail className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
+                <a href="mailto:hello@eventora.com" className="hover:text-[#DFC07B] transition-colors">
+                  hello@eventora.com
+                </a>
               </li>
-              <li className="flex items-center gap-3 text-xs text-[#46382C]">
-                <div className="w-7 h-7 rounded-full bg-white border border-[#DFC07B]/60 shadow-xs flex items-center justify-center text-[#8C6B1C] shrink-0">
-                  <MapPin className="w-3.5 h-3.5" />
-                </div>
+              <li className="flex items-center gap-3 text-xs text-[#A0988A]">
+                <MapPin className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
                 <span>Chennai, Tamil Nadu</span>
               </li>
             </ul>
-
-            <button
-              onClick={onOpenConsultation}
-              className="w-full py-2.5 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase hover:shadow-md transition-all shadow-xs"
-            >
-              Request Callback
-            </button>
           </div>
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[#DFC07B]/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#786756]">
-          <p>
-            © 2026 Eventora Events & Beyond. All rights reserved.
+        {/* Bottom Bar: Copyright */}
+        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#70685A]">
+          <p>© 2025 Eventora. All rights reserved.</p>
+          <p className="text-[11px] text-[#DFC07B]/80 font-medium tracking-wide">
+            Dreams &bull; Designs &bull; Celebrations
           </p>
-          <div className="flex items-center gap-1.5 text-[#8C6B1C] font-medium">
-            <Heart className="w-3.5 h-3.5 fill-[#8C6B1C]" />
-            <span>Creating beautiful moments, always.</span>
-          </div>
         </div>
 
       </div>
