@@ -1,4 +1,5 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const DB_NAME = import.meta.env.VITE_DB_NAME || 'event_management_db';
 
 export const api = {
   // Check backend health

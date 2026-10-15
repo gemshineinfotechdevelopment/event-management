@@ -31,3 +31,5 @@ dist-ssr
 .env.production.local
 server/.env
 server/.env.local
+src/.env
+src/.env.local

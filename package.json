@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\" --names \"CLIENT,SERVER\" --prefix-colors \"cyan,magenta\"",
+    "dev": "vite",
     "dev:client": "vite",
     "dev:server": "npm run dev --prefix server",
+    "dev:all": "concurrently \"npm run dev:client\" \"npm run dev:server\" --names \"CLIENT,SERVER\" --prefix-colors \"cyan,magenta\"",
     "build": "vite build",
     "preview": "vite preview",
     "server": "npm start --prefix server",

@@ -24,7 +24,8 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    database: process.env.DB_NAME || 'event_management_db'
   });
 });
 
@@ -37,8 +38,22 @@ app.use('*', (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🚀 Node.js Backend Server running on http://localhost:${PORT}`);
   console.log(`🔌 Health check available at: http://localhost:${PORT}/api/health`);
   console.log(`🎯 Client origin allowed: ${CLIENT_URL}`);
+  if (process.env.DB_NAME) {
+    console.log(`🗄️ Database: ${process.env.DB_NAME}`);
+  }
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`⚠️ Port ${PORT} is already in use by another process.`);
+    console.error(`👉 Run this in PowerShell to free port ${PORT}:`);
+    console.error(`   Stop-Process -Id (Get-NetTCPConnection -LocalPort ${PORT}).OwningProcess -Force`);
+    process.exit(1);
+  } else {
+    throw err;
+  }
 });

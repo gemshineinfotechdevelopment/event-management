@@ -1,39 +1,168 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-display: 'Playfair Display', 'Cormorant Garamond', serif;
+  --font-script: 'Great Vibes', cursive;
+  
+  --color-gold-50: #FCF9EE;
+  --color-gold-100: #F7F1D6;
+  --color-gold-200: #EFE1AA;
+  --color-gold-300: #E4CB75;
+  --color-gold-400: #DFC07B;
+  --color-gold-500: #C5A059;
+  --color-gold-600: #AA8222;
+  --color-gold-700: #886518;
+  
+  --color-charcoal-900: #1C1610;
+  --color-charcoal-800: #2C241D;
+  --color-charcoal-700: #3F342A;
+  --color-charcoal-600: #584A3D;
+  --color-charcoal-500: #786756;
+  
+  --color-ivory-50: #FFFFFF;
+  --color-ivory-100: #FCFAF6;
+  --color-ivory-200: #FAF8F5;
+  --color-cream-100: #F7F3EB;
+  --color-cream-200: #F3ECE0;
+  --color-cream-300: #ECE2D2;
+  --color-blush-50: #FDF9F7;
+  --color-blush-100: #FBF4F0;
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #090d16;
-  color: #f1f5f9;
+  background-color: #FAF8F5;
+  color: #2C241D;
   min-height: 100vh;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Custom scrollbars */
+button, [role="button"], a {
+  cursor: pointer;
+}
+
+/* Typography Helpers */
+.font-script {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-serif-luxury {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+}
+
+.font-display-luxury {
+  font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+}
+
+/* Light Luxury Gradients & Text */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #A87A18 0%, #C5A059 40%, #886518 80%, #DFC07B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-btn {
+  background: linear-gradient(135deg, #ECCB7F 0%, #DFC07B 50%, #C5A059 100%);
+}
+
+.gold-border-subtle {
+  border: 1px solid rgba(197, 160, 89, 0.3);
+}
+
+.light-glass-nav {
+  background: rgba(250, 248, 245, 0.90);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 4px 20px -2px rgba(44, 36, 29, 0.05);
+}
+
+.light-card {
+  background: #FAF8F5;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  box-shadow: 0 10px 30px -8px rgba(70, 52, 33, 0.06);
+}
+
+.light-card:hover {
+  border-color: rgba(197, 160, 89, 0.65);
+  box-shadow: 0 16px 36px -10px rgba(197, 160, 89, 0.16);
+}
+
+.light-glass-modal {
+  background: rgba(250, 248, 245, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+/* Animations */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 4s ease-in-out infinite;
+}
+
+/* Custom Scrollbars in Light Luxury */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #FAF8F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #E4D8C4;
   border-radius: 9999px;
+  border: 1px solid rgba(197, 160, 89, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #C5A059;
+}
+
+/* Hide scrollbar for carousel while allowing scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
