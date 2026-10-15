@@ -13,7 +13,7 @@ const ALIAS_MAP = {
   venues: 'venues',
 };
 
-export default function Navbar({ onOpenConsultation, onOpenSearch, onNavigateGallery }) {
+export default function Navbar({ onOpenConsultation, onOpenSearch, onNavigateGallery, onNavigateEvents }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -30,6 +30,10 @@ export default function Navbar({ onOpenConsultation, onOpenSearch, onNavigateGal
   // Smooth scroll with fixed header offset and history tracking
   const scrollTo = useCallback((rawId, updateHistory = true) => {
     setMobileMenuOpen(false);
+    if (rawId === 'events' && onNavigateEvents) {
+      onNavigateEvents();
+      return;
+    }
     if (rawId === 'gallery' && onNavigateGallery) {
       onNavigateGallery();
       return;

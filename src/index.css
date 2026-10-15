@@ -6,6 +6,7 @@
   --font-display: 'Playfair Display', 'Cormorant Garamond', serif;
   --font-script: 'Great Vibes', cursive;
   
+  /* Luxury Gold Palette */
   --color-gold-50: #FCF9EE;
   --color-gold-100: #F7F1D6;
   --color-gold-200: #EFE1AA;
@@ -15,20 +16,67 @@
   --color-gold-600: #AA8222;
   --color-gold-700: #886518;
   
+  /* Luxury Dark Navy Palette */
+  --color-navy-950: #04070D;
+  --color-navy-900: #060A14;
+  --color-navy-850: #070C18;
+  --color-navy-800: #0D1527;
+  --color-navy-700: #141C2B;
+  --color-navy-600: #1E293B;
+
+  /* Rich Charcoal & Neutral Palette */
   --color-charcoal-900: #1C1610;
   --color-charcoal-800: #2C241D;
   --color-charcoal-700: #3F342A;
   --color-charcoal-600: #584A3D;
   --color-charcoal-500: #786756;
   
+  /* Warm Ivory & Cream Palette */
   --color-ivory-50: #FFFFFF;
   --color-ivory-100: #FCFAF6;
   --color-ivory-200: #FAF8F5;
   --color-cream-100: #F7F3EB;
   --color-cream-200: #F3ECE0;
   --color-cream-300: #ECE2D2;
+  --color-cream-400: #E5DAC6;
   --color-blush-50: #FDF9F7;
   --color-blush-100: #FBF4F0;
+
+  /* Keyframe Animations */
+  --animate-spin-slow: spin-slow 22s linear infinite;
+  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  --animate-fadeIn: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 :root {
@@ -55,7 +103,7 @@ button, [role="button"], a {
   cursor: pointer;
 }
 
-/* Typography Helpers */
+/* Typography Utility Classes */
 .font-script {
   font-family: 'Great Vibes', cursive;
 }
@@ -68,7 +116,7 @@ button, [role="button"], a {
   font-family: 'Playfair Display', 'Cormorant Garamond', serif;
 }
 
-/* Light Luxury Gradients & Text */
+/* Luxury Gradients & Text */
 .gold-gradient-text {
   background: linear-gradient(135deg, #A87A18 0%, #C5A059 40%, #886518 80%, #DFC07B 100%);
   -webkit-background-clip: text;
@@ -107,35 +155,6 @@ button, [role="button"], a {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(212, 175, 55, 0.35);
-}
-
-/* Animations */
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 22s linear infinite;
-}
-
-@keyframes pulse-subtle {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.95;
-  }
-  50% {
-    transform: scale(1.03);
-    opacity: 1;
-  }
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 4s ease-in-out infinite;
 }
 
 /* Custom Scrollbars in Light Luxury */

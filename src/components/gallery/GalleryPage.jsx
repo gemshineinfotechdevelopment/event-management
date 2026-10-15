@@ -16,7 +16,7 @@ import {
   ADDITIONAL_PAGES_CARDS 
 } from '../../data/galleryData';
 
-export default function GalleryPage({ onNavigateHome, onOpenConsultation }) {
+export default function GalleryPage({ onNavigateHome, onOpenConsultation, onNavigateEvents }) {
   // State for active category: starts at 'wedding' or 'all'
   // In the reference image, "Wedding" is the active tab and "Grand Wedding Ceremony" is in preview!
   const [activeCategory, setActiveCategory] = useState('wedding');
@@ -144,6 +144,12 @@ export default function GalleryPage({ onNavigateHome, onOpenConsultation }) {
         onNavigate={(route) => {
           if (route === 'gallery') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else if (route === 'events') {
+            if (onNavigateEvents) {
+              onNavigateEvents();
+            } else {
+              onNavigateHome('events');
+            }
           } else {
             onNavigateHome(route);
           }

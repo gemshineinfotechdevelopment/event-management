@@ -1,21 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import CurvedTransition from './components/CurvedTransition';
-import EventsSection from './components/EventsSection';
-import WhyChooseUs from './components/WhyChooseUs';
-import ServicesSection from './components/ServicesSection';
-import VenueIdeasSection from './components/VenueIdeasSection';
-import GallerySection from './components/GallerySection';
-import HowItWorks from './components/HowItWorks';
-import TestimonialsSection from './components/TestimonialsSection';
-import FinalCTA from './components/FinalCTA';
-import Footer from './components/Footer';
+import { 
+  HomePage, 
+  EventsPage, 
+  GalleryPage, 
+  ServicesPage, 
+  AboutPage, 
+  ContactPage 
+} from './pages';
 
-// Dedicated Interactive Gallery Page matching the exact reference image
-import GalleryPage from './components/gallery/GalleryPage';
-
-// Modals
+// Interactive Global Modals
 import ConsultationModal from './components/modals/ConsultationModal';
 import VideoModal from './components/modals/VideoModal';
 import ImageLightboxModal from './components/modals/ImageLightboxModal';
@@ -26,13 +19,16 @@ export default function App() {
   // Determine initial view based on URL hash or path
   const [currentView, setCurrentView] = useState(() => {
     if (typeof window !== 'undefined') {
-      const hash = window.location.hash.toLowerCase();
-      if (hash.includes('home') || hash.includes('events') || hash.includes('services') || hash.includes('why-us') || hash.includes('contact')) {
-        return 'home';
-      }
+      const hash = window.location.hash.toLowerCase().replace('#', '');
+      if (hash === 'events') return 'events';
+      if (hash === 'gallery') return 'gallery';
+      if (hash === 'services') return 'services';
+      if (hash === 'about' || hash === 'why-us') return 'about';
+      if (hash === 'contact') return 'contact';
+      if (hash === 'home') return 'home';
     }
-    // Default to 'gallery' as requested to showcase the exact reference design
-    return 'gallery';
+    // Default to 'events' as requested to showcase the exact reference design
+    return 'events';
   });
 
   const [consultationOpen, setConsultationOpen] = useState(false);
@@ -44,7 +40,7 @@ export default function App() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [lightboxItem, setLightboxItem] = useState(null);
 
-  // Open consultation with specified category
+  // Open consultation modal with specified category
   const handleOpenConsultation = (category = 'Wedding') => {
     setInitialCategory(typeof category === 'string' ? category : 'Wedding');
     setConsultationOpen(true);
@@ -54,15 +50,50 @@ export default function App() {
     setSelectedEvent(event);
   };
 
+  // General page navigation
+  const handleNavigatePage = useCallback((pageName) => {
+    const validViews = ['home', 'events', 'gallery', 'services', 'about', 'contact'];
+    const target = pageName === 'why-us' ? 'about' : pageName;
+    if (validViews.includes(target)) {
+      setCurrentView(target);
+      window.history.pushState(null, '', `#${target}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, []);
+
+  // Navigate to Events view
+  const handleNavigateToEvents = useCallback(() => {
+    handleNavigatePage('events');
+  }, [handleNavigatePage]);
+
   // Navigate to Gallery view
   const handleNavigateToGallery = useCallback(() => {
-    setCurrentView('gallery');
-    window.history.pushState(null, '', '#gallery');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+    handleNavigatePage('gallery');
+  }, [handleNavigatePage]);
 
   // Navigate to Home view & scroll to specified section
   const handleNavigateToHome = useCallback((sectionId = 'home') => {
+    if (sectionId === 'events') {
+      handleNavigatePage('events');
+      return;
+    }
+    if (sectionId === 'gallery') {
+      handleNavigatePage('gallery');
+      return;
+    }
+    if (sectionId === 'services') {
+      handleNavigatePage('services');
+      return;
+    }
+    if (sectionId === 'about' || sectionId === 'why-us') {
+      handleNavigatePage('about');
+      return;
+    }
+    if (sectionId === 'contact') {
+      handleNavigatePage('contact');
+      return;
+    }
+
     setCurrentView('home');
     const targetHash = sectionId === 'home' ? '#home' : `#${sectionId}`;
     window.history.pushState(null, '', targetHash);
@@ -84,14 +115,14 @@ export default function App() {
         });
       }
     }, 80);
-  }, []);
+  }, [handleNavigatePage]);
 
   // Listen to browser Back/Forward navigation
   useEffect(() => {
     const handlePopState = () => {
-      const hash = window.location.hash.toLowerCase();
-      if (hash === '#gallery') {
-        setCurrentView('gallery');
+      const hash = window.location.hash.toLowerCase().replace('#', '');
+      if (['events', 'gallery', 'services', 'about', 'contact'].includes(hash)) {
+        setCurrentView(hash === 'why-us' ? 'about' : hash);
       } else {
         setCurrentView('home');
       }
@@ -104,78 +135,59 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#E2C787] selection:text-[#1C1610]">
       
-      {currentView === 'gallery' ? (
-        /* Dedicated Eventora Gallery Page matching the reference image */
+      {/* Dynamic View Rendering based on currentView */}
+      {currentView === 'events' ? (
+        <EventsPage 
+          onNavigateHome={handleNavigateToHome}
+          onOpenConsultation={handleOpenConsultation}
+          onNavigateGallery={handleNavigateToGallery}
+          onNavigatePage={handleNavigatePage}
+        />
+      ) : currentView === 'gallery' ? (
         <GalleryPage 
           onNavigateHome={handleNavigateToHome}
           onOpenConsultation={handleOpenConsultation}
+          onNavigateEvents={handleNavigateToEvents}
+          onNavigatePage={handleNavigatePage}
+        />
+      ) : currentView === 'services' ? (
+        <ServicesPage 
+          onNavigateHome={handleNavigateToHome}
+          onOpenConsultation={handleOpenConsultation}
+          onNavigateGallery={handleNavigateToGallery}
+          onNavigateEvents={handleNavigateToEvents}
+          onNavigatePage={handleNavigatePage}
+        />
+      ) : currentView === 'about' ? (
+        <AboutPage 
+          onNavigateHome={handleNavigateToHome}
+          onOpenConsultation={handleOpenConsultation}
+          onNavigateGallery={handleNavigateToGallery}
+          onNavigateEvents={handleNavigateToEvents}
+          onNavigatePage={handleNavigatePage}
+        />
+      ) : currentView === 'contact' ? (
+        <ContactPage 
+          onNavigateHome={handleNavigateToHome}
+          onOpenConsultation={handleOpenConsultation}
+          onNavigateGallery={handleNavigateToGallery}
+          onNavigateEvents={handleNavigateToEvents}
+          onNavigatePage={handleNavigatePage}
         />
       ) : (
-        /* Full Landing Website */
-        <>
-          {/* 1. Header & Navigation */}
-          <Navbar 
-            onOpenConsultation={() => handleOpenConsultation('General')}
-            onOpenSearch={() => setSearchModalOpen(true)}
-            onNavigateGallery={handleNavigateToGallery}
-          />
-
-          {/* 2. Hero Section */}
-          <Hero 
-            onOpenConsultation={() => handleOpenConsultation('Wedding')}
-            onOpenVideo={() => setVideoModalOpen(true)}
-          />
-
-          {/* 3. Curved Transition with Botanical Flourish */}
-          <CurvedTransition />
-
-          {/* 4. Our Events Section */}
-          <EventsSection 
-            onSelectEvent={handleSelectEvent}
-            onOpenConsultation={() => handleOpenConsultation('Custom')}
-          />
-
-          {/* 5. Why Choose Us Section */}
-          <WhyChooseUs 
-            onOpenConsultation={() => handleOpenConsultation('General')}
-          />
-
-          {/* 6. Our Services Section */}
-          <ServicesSection 
-            onOpenConsultation={() => handleOpenConsultation('Services')}
-          />
-
-          {/* 7. Featured / Venue Ideas Section */}
-          <VenueIdeasSection 
-            onOpenLightbox={setLightboxItem}
-            onScrollToGallery={handleNavigateToGallery}
-          />
-
-          {/* 8. Featured Gallery Section with shortcut to full interactive gallery */}
-          <GallerySection 
-            onOpenLightbox={setLightboxItem}
-            onOpenConsultation={handleNavigateToGallery}
-          />
-
-          {/* 9. How It Works Section */}
-          <HowItWorks />
-
-          {/* 10. Testimonials Section */}
-          <TestimonialsSection />
-
-          {/* 11. Final CTA Section */}
-          <FinalCTA 
-            onOpenConsultation={() => handleOpenConsultation('Consultation')}
-          />
-
-          {/* 12. Footer Section */}
-          <Footer 
-            onOpenConsultation={() => handleOpenConsultation('General')}
-          />
-        </>
+        <HomePage 
+          onOpenConsultation={handleOpenConsultation}
+          onOpenSearch={() => setSearchModalOpen(true)}
+          onOpenVideo={() => setVideoModalOpen(true)}
+          onSelectEvent={handleSelectEvent}
+          onOpenLightbox={setLightboxItem}
+          onNavigateGallery={handleNavigateToGallery}
+          onNavigateEvents={handleNavigateToEvents}
+          onNavigatePage={handleNavigatePage}
+        />
       )}
 
-      {/* Interactive Global Modals */}
+      {/* Global Modals accessible across all pages */}
       <ConsultationModal 
         isOpen={consultationOpen} 
         onClose={() => setConsultationOpen(false)}
