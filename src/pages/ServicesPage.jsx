@@ -19,7 +19,6 @@ const SERVICES = [
     image: '/wedding.jpg',
     icon: Crown,
     desc: 'Bespoke destination wedding production, opulent mandap artistry, designer florals, custom bridal suites, and complete bridal party choreography.',
-    price: 'Custom Curated',
     features: [
       'Comprehensive 360° Wedding Management',
       'Architectural Floral Mandap & Stage Styling',
@@ -35,7 +34,6 @@ const SERVICES = [
     image: '/corporate.jpg',
     icon: ShieldCheck,
     desc: 'Executive conferences, annual leadership awards, product launches, and gala dinners delivered with razor-sharp timing and world-class AV production.',
-    price: 'Tailored Packages',
     features: [
       'Curved Ultra-HD LED Stage Displays & Laser Lighting',
       'Automated QR Check-In & Attendee Badging',
@@ -51,7 +49,6 @@ const SERVICES = [
     image: '/privateparty.jpg',
     icon: Sparkles,
     desc: 'Enchanting garden dinners, cocktail receptions, milestone anniversaries, and VIP celebrations curated with bespoke lighting, acoustics, and dining.',
-    price: 'Bespoke Experience',
     features: [
       'Festoon & Edison Bulb Canopies over Banquet Tables',
       'Craft Mixology Bars & Signature Cocktails',
@@ -67,7 +64,6 @@ const SERVICES = [
     image: '/dining-centerpiece.jpg',
     icon: Utensils,
     desc: 'Award-winning culinary teams crafting bespoke menus spanning traditional royal feasts, live gourmet counters, artisanal dessert bars, and sommelier pairings.',
-    price: 'Per Plate / Custom',
     features: [
       'Authentic Multi-Cuisine Royal Spread',
       'Interactive Live Cooking Theatres',
@@ -83,7 +79,6 @@ const SERVICES = [
     image: '/venue-stage.jpg',
     icon: Palette,
     desc: 'Visionary stage architecture, hanging wisteria gardens, crystal chandeliers, illuminated arches, and customized luxury furniture installations.',
-    price: 'Concept Driven',
     features: [
       '3D Photorealistic Venue Renders & Floor Plans',
       'Exotic Imported & Seasonal Fresh Florals',
@@ -99,7 +94,6 @@ const SERVICES = [
     image: '/couple-terrace.jpg',
     icon: Camera,
     desc: 'Celebrity photographers and cinematic filmmakers preserving every tear, laugh, and glance with editorial elegance and emotional depth.',
-    price: 'Complete Coverage',
     features: [
       'Multi-Camera 4K & Drone Aerial Cinematography',
       'Same-Day Teaser Video Edits for Social Media',
@@ -187,7 +181,7 @@ export default function ServicesPage({ onOpenConsultation }) {
                       <Icon className="w-4 h-4" />
                     </div>
                     <span className="text-white text-xs font-semibold drop-shadow-xs">
-                      {s.price}
+                      Signature Experience
                     </span>
                   </div>
                 </div>

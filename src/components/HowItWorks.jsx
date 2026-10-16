@@ -7,7 +7,7 @@ export default function HowItWorks() {
     {
       step: '01',
       title: 'Consultation',
-      desc: 'Tell us your vision, needs and budget.',
+      desc: 'Tell us your vision, preferences and expectations.',
       icon: MessagesSquare
     },
     {

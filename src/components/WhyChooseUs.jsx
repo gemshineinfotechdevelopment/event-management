@@ -44,9 +44,9 @@ export default function WhyChooseUs({ onOpenConsultation }) {
       desc: 'Military-grade punctuality with zero stress.'
     },
     {
-      title: 'Budget Friendly',
-      icon: Coins,
-      desc: 'Transparent pricing with maximum luxury value.'
+      title: 'Bespoke Curation',
+      icon: Crown,
+      desc: 'Tailored celebrations reflecting your distinct style.'
     },
     {
       title: 'Hassle-Free Experience',

@@ -188,37 +188,20 @@ export default function CreateEventModal({ isOpen, onClose, onSubmit }) {
             />
           </div>
 
-          {/* Row 3: Price & Capacity */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Ticket Price ($)
-              </label>
-              <input
-                type="number"
-                name="price"
-                min="0"
-                placeholder="0 for Free"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                value={formData.price}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Total Capacity
-              </label>
-              <input
-                type="number"
-                name="capacity"
-                min="1"
-                placeholder="100"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                value={formData.capacity}
-                onChange={handleChange}
-              />
-            </div>
+          {/* Row 3: Capacity */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              Total Guest Capacity
+            </label>
+            <input
+              type="number"
+              name="capacity"
+              min="1"
+              placeholder="100"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+              value={formData.capacity}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Image */}

@@ -16,6 +16,7 @@ import VideoModal from './components/modals/VideoModal';
 import ImageLightboxModal from './components/modals/ImageLightboxModal';
 import EventDetailsModal from './components/modals/EventDetailsModal';
 import SearchModal from './components/modals/SearchModal';
+import FloatingWhatsApp from './components/common/FloatingWhatsApp';
 
 export default function App() {
   // Determine initial view based on URL hash or path
@@ -185,6 +186,8 @@ export default function App() {
             onNavigateAbout={() => handleNavigatePage('about')}
             onNavigateGallery={handleNavigateToGallery}
             onNavigateEvents={handleNavigateToEvents}
+            onOpenVideo={() => setVideoModalOpen(true)}
+            onOpenLightbox={(item) => setLightboxItem(item)}
           />
         )}
       </main>
@@ -226,6 +229,9 @@ export default function App() {
         isOpen={searchModalOpen} 
         onClose={() => setSearchModalOpen(false)} 
       />
+
+      {/* Floating WhatsApp Action Button (Icon Only, Persistent on Scroll) */}
+      <FloatingWhatsApp />
 
     </div>
   );

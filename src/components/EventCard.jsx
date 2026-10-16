@@ -30,11 +30,6 @@ export default function EventCard({ event, onRegister, onDelete, isRegistering }
         <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold bg-slate-950/70 text-indigo-300 backdrop-blur-md border border-slate-700/50 shadow-sm">
           {event.category}
         </span>
-
-        {/* Price Pill */}
-        <span className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold bg-indigo-600/90 text-white backdrop-blur-md border border-indigo-400/30 shadow-sm">
-          {event.price === 0 ? 'FREE' : `$${event.price}`}
-        </span>
       </div>
 
       {/* Body */}

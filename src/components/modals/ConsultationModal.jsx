@@ -10,7 +10,6 @@ export default function ConsultationModal({ isOpen, onClose, initialCategory = '
     category: initialCategory,
     date: '',
     guests: '200 - 500',
-    budget: '₹10L - ₹25L',
     city: 'Chennai',
     notes: ''
   });
@@ -164,17 +163,14 @@ export default function ConsultationModal({ isOpen, onClose, initialCategory = '
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[#46382C] font-semibold mb-1.5">Estimated Budget</label>
-                  <select
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                  <label className="block text-[#46382C] font-semibold mb-1.5">Preferred City / Venue</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Chennai, Goa, Udaipur"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#E5DAC6] focus:border-[#C5A059] focus:outline-none text-[#2C241D]"
-                  >
-                    <option value="₹5L - ₹10L">₹5L - ₹10L</option>
-                    <option value="₹10L - ₹25L">₹10L - ₹25L</option>
-                    <option value="₹25L - ₹50L">₹25L - ₹50L</option>
-                    <option value="₹50L - ₹1Cr+">₹50L - ₹1Cr+</option>
-                  </select>
+                  />
                 </div>
               </div>
 

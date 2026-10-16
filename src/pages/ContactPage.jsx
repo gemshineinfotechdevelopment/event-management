@@ -9,7 +9,6 @@ export default function ContactPage({ onOpenConsultation }) {
     eventType: 'Wedding',
     eventDate: '',
     guestCount: '',
-    budget: '',
     message: ''
   });
 
