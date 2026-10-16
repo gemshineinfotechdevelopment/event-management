@@ -131,6 +131,36 @@ button, [role="button"], a {
   border: 1px solid rgba(197, 160, 89, 0.3);
 }
 
+/* Eventora Premium Glassmorphism Header */
+.eventora-glass-header {
+  background: rgba(15, 25, 40, 0.40);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.28), 
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.20),
+              inset 0 -1px 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.eventora-glass-header-scrolled {
+  background: rgba(10, 16, 28, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(223, 192, 123, 0.32);
+  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.48), 
+              0 2px 10px 0 rgba(0, 0, 0, 0.25),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.eventora-glass-dropdown {
+  background: rgba(10, 16, 28, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.6),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
 .light-glass-nav {
   background: rgba(250, 248, 245, 0.90);
   backdrop-filter: blur(16px);
