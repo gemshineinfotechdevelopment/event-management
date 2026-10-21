@@ -111,12 +111,17 @@ export default function ServicesPage({ onOpenConsultation }) {
       {/* 1. Hero Section */}
       <section className="relative w-full min-h-[460px] flex items-center overflow-hidden bg-[#070C18] pt-24 pb-16">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/venue-lights.jpg" 
-            alt="Luxury Services Backdrop" 
-            className="w-full h-full object-cover object-center filter brightness-40"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/90 to-[#070C18]/70" />
+          <div className="relative w-full h-full">
+            <img 
+              src="/venue-lights.jpg" 
+              alt="Luxury Services Backdrop" 
+              className="w-full h-full object-cover object-right lg:object-center filter brightness-95 contrast-[1.05]"
+            />
+            {/* Gradients to seamlessly blend image into dark navy on the left and bottom */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/85 md:via-[#070C18]/60 to-transparent z-1" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#070C18] via-transparent to-[#070C18]/50 z-2" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#070C18] via-[#070C18]/70 to-transparent z-1" />
+          </div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center sm:text-left">

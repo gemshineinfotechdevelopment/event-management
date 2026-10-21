@@ -38,10 +38,17 @@ export default function App() {
   const [initialCategory, setInitialCategory] = useState('Wedding');
   
   const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [activeVideoId, setActiveVideoId] = useState('ZCWBvo0Ybew');
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [lightboxItem, setLightboxItem] = useState(null);
+
+  // Open video modal with optional specific video ID
+  const handleOpenVideo = (videoId = 'ZCWBvo0Ybew') => {
+    setActiveVideoId(typeof videoId === 'string' && videoId ? videoId : 'ZCWBvo0Ybew');
+    setVideoModalOpen(true);
+  };
 
   // Open consultation modal with specified category
   const handleOpenConsultation = (category = 'Wedding') => {
@@ -186,7 +193,7 @@ export default function App() {
             onNavigateAbout={() => handleNavigatePage('about')}
             onNavigateGallery={handleNavigateToGallery}
             onNavigateEvents={handleNavigateToEvents}
-            onOpenVideo={() => setVideoModalOpen(true)}
+            onOpenVideo={handleOpenVideo}
             onOpenLightbox={(item) => setLightboxItem(item)}
           />
         )}
@@ -208,6 +215,7 @@ export default function App() {
       <VideoModal 
         isOpen={videoModalOpen} 
         onClose={() => setVideoModalOpen(false)} 
+        videoId={activeVideoId}
       />
 
       <ImageLightboxModal 
