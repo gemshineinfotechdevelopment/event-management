@@ -2,21 +2,51 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import { connectDB } from './config/db.js';
 import eventsRouter from './routes/events.js';
 import enquiriesRouter from './routes/enquiries.js';
 
 // Load environment variables from server/.env
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const PORT = process.env.PORT || 5000;
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+const PORT = process.env.PORT || 5023;
+const CLIENT_URL = process.env.CLIENT_URL || 'https://eventora.gemshine.tech';
+
+// Connect to MongoDB
+connectDB();
+
+// Allowed Origins for CORS
+const allowedOrigins = [
+  'https://eventora.gemshine.tech',
+  'http://eventora.gemshine.tech',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:5023',
+  'http://127.0.0.1:5023',
+  CLIENT_URL
+].filter(Boolean);
 
 // Middlewares
 app.use(cors({
-  origin: [CLIENT_URL, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || origin.endsWith('.gemshine.tech')) {
+      return callback(null, true);
+    }
+    return callback(null, true); // Permissive in production behind Nginx reverse proxy
+  },
   credentials: true
 }));
+
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -24,9 +54,15 @@ app.use(morgan('dev'));
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
+    service: 'Eventora API',
+    port: PORT,
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    database: process.env.DB_NAME || 'event_management_db'
+    database: {
+      connected: mongoose.connection.readyState === 1,
+      name: mongoose.connection.name || 'eventora',
+      state: ['disconnected', 'connected', 'connecting', 'disconnecting'][mongoose.connection.readyState]
+    }
   });
 });
 
@@ -34,19 +70,32 @@ app.get('/api/health', (req, res) => {
 app.use('/api/events', eventsRouter);
 app.use('/api/enquiries', enquiriesRouter);
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
-});
+// Serve Frontend build if dist folder exists (e.g. In VPS single-port mode)
+const distPath = path.join(__dirname, '..', 'dist');
+if (fs.existsSync(distPath)) {
+  console.log(`📦 Serving static frontend from: ${distPath}`);
+  app.use(express.static(distPath));
 
-// Start Server
+  // SPA Fallback for React Router / client routes
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+} else {
+  // 404 for unhandled API endpoints
+  app.use('*', (req, res) => {
+    res.status(404).json({ error: 'Endpoint not found' });
+  });
+}
+
+// Start Server on Port 5023
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Node.js Backend Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Eventora Backend Server running on port ${PORT}`);
   console.log(`🔌 Health check available at: http://localhost:${PORT}/api/health`);
-  console.log(`🎯 Client origin allowed: ${CLIENT_URL}`);
-  if (process.env.DB_NAME) {
-    console.log(`🗄️ Database: ${process.env.DB_NAME}`);
-  }
+  console.log(`🎯 Domain: https://eventora.gemshine.tech`);
+  console.log(`🍃 MongoDB URI: ${process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/eventora'}`);
 });
 
 server.on('error', (err) => {

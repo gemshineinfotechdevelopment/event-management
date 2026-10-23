@@ -2,14 +2,16 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import Enquiry from '../models/Enquiry.js';
 
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ENQUIRIES_FILE = path.join(__dirname, '..', 'data', 'enquiries.json');
 
-// Ensure enquiries.json exists
-function loadEnquiries() {
+// Ensure enquiries.json exists as a resilient file backup
+function loadEnquiriesFromFile() {
   try {
     if (!fs.existsSync(ENQUIRIES_FILE)) {
       fs.writeFileSync(ENQUIRIES_FILE, JSON.stringify([], null, 2), 'utf-8');
@@ -18,16 +20,18 @@ function loadEnquiries() {
     const data = fs.readFileSync(ENQUIRIES_FILE, 'utf-8');
     return JSON.parse(data || '[]');
   } catch (err) {
-    console.error('Error loading enquiries:', err);
+    console.error('Error loading enquiries from file:', err);
     return [];
   }
 }
 
-function saveEnquiries(enquiries) {
+function saveEnquiryToFile(enquiry) {
   try {
-    fs.writeFileSync(ENQUIRIES_FILE, JSON.stringify(enquiries, null, 2), 'utf-8');
+    const list = loadEnquiriesFromFile();
+    list.unshift(enquiry);
+    fs.writeFileSync(ENQUIRIES_FILE, JSON.stringify(list, null, 2), 'utf-8');
   } catch (err) {
-    console.error('Error saving enquiries:', err);
+    console.error('Error saving enquiry to backup file:', err);
   }
 }
 
@@ -52,7 +56,7 @@ async function dispatchWhatsAppNotification(enquiry) {
     enquiry.notes || enquiry.message ? `📝 *Message:* ${enquiry.notes || enquiry.message}` : null,
     '━━━━━━━━━━━━━━━━━━━━',
     enquiry.refCode ? `🔖 *Ref:* ${enquiry.refCode}` : null,
-    `⏰ *Time:* ${new Date(enquiry.createdAt).toLocaleString('en-IN')}`
+    `⏰ *Time:* ${new Date(enquiry.createdAt || Date.now()).toLocaleString('en-IN')}`
   ].filter(Boolean).join('\n');
 
   console.log('\n=========================================');
@@ -61,7 +65,7 @@ async function dispatchWhatsAppNotification(enquiry) {
   console.log(`📱 Destination Owner Phone: ${ownerNumber}`);
   console.log('=========================================\n');
 
-  // 1. If CallMeBot API is configured (100% Free WhatsApp API for personal notifications)
+  // 1. If CallMeBot API is configured (Free WhatsApp API for personal notifications)
   if (callMeBotKey) {
     try {
       const cleanPhone = ownerNumber.startsWith('+') ? ownerNumber : `+${ownerNumber}`;
@@ -94,8 +98,7 @@ async function dispatchWhatsAppNotification(enquiry) {
     }
   }
 
-  // Fallback: Logged to server console & database
-  return { sent: false, reason: 'No WhatsApp gateway API key configured yet. Enquiry stored in server/data/enquiries.json' };
+  return { sent: false, reason: 'No WhatsApp gateway API key configured. Enquiry saved in MongoDB and backup file.' };
 }
 
 // POST /api/enquiries - Submit new celebration enquiry
@@ -110,33 +113,50 @@ router.post('/', async (req, res) => {
       });
     }
 
-    const newEnquiry = {
-      id: `enq_${Date.now()}`,
+    const payload = {
       refCode: refCode || `EVT-${Math.floor(100000 + Math.random() * 900000)}`,
-      name,
-      phone,
-      email: email || '',
+      name: String(name).trim(),
+      phone: String(phone).trim(),
+      email: email ? String(email).trim() : '',
       category: category || eventType || 'General Consultation',
       date: date || eventDate || '',
       guests: guests || guestCount || '',
-      city: city || '',
+      city: city ? String(city).trim() : '',
       notes: notes || message || '',
       createdAt: new Date().toISOString()
     };
 
-    // Save to persistent file
-    const enquiries = loadEnquiries();
-    enquiries.unshift(newEnquiry);
-    saveEnquiries(enquiries);
+    let savedInDB = false;
+    let savedDoc = null;
 
-    // Dispatch background WhatsApp notification without opening client's WhatsApp
-    const dispatchResult = await dispatchWhatsAppNotification(newEnquiry);
+    // 1. Save to MongoDB if connected
+    if (mongoose.connection.readyState === 1) {
+      try {
+        savedDoc = await Enquiry.create(payload);
+        savedInDB = true;
+      } catch (dbErr) {
+        console.warn('⚠️ MongoDB save failed, falling back to file:', dbErr.message);
+      }
+    }
+
+    // 2. Dual persistence: always write to file backup as well
+    saveEnquiryToFile(payload);
+
+    // 3. Dispatch background WhatsApp notification
+    const dispatchResult = await dispatchWhatsAppNotification(payload);
+
+    // If saved to MongoDB and dispatch succeeded, record it
+    if (savedDoc && dispatchResult?.sent) {
+      savedDoc.whatsappDispatched = true;
+      await savedDoc.save().catch(() => {});
+    }
 
     res.status(201).json({
       success: true,
-      message: 'Enquiry received successfully and dispatched to WhatsApp.',
-      refCode: newEnquiry.refCode,
-      data: newEnquiry,
+      message: 'Enquiry received successfully and stored.',
+      refCode: payload.refCode,
+      data: savedDoc || payload,
+      database: savedInDB ? 'MongoDB' : 'FileBackup',
       dispatch: dispatchResult
     });
   } catch (err) {
@@ -146,13 +166,26 @@ router.post('/', async (req, res) => {
 });
 
 // GET /api/enquiries - View all submitted enquiries
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const enquiries = loadEnquiries();
+    // If MongoDB is connected, query MongoDB
+    if (mongoose.connection.readyState === 1) {
+      const dbEnquiries = await Enquiry.find().sort({ createdAt: -1 }).lean();
+      return res.json({
+        success: true,
+        source: 'MongoDB',
+        total: dbEnquiries.length,
+        data: dbEnquiries
+      });
+    }
+
+    // Fallback to file storage
+    const fileEnquiries = loadEnquiriesFromFile();
     res.json({
       success: true,
-      total: enquiries.length,
-      data: enquiries
+      source: 'FileBackup',
+      total: fileEnquiries.length,
+      data: fileEnquiries
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
