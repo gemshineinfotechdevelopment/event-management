@@ -3,7 +3,7 @@ import { Calendar, Heart, Star } from 'lucide-react';
 
 export default function EventsHero() {
   return (
-    <section className="relative w-full min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] flex items-center overflow-hidden bg-[#070C18]">
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden bg-[#070C18]">
       
       {/* Background Pavilion Image on the Right with Smooth Cinematic Gradient Fade */}
       <div className="absolute inset-0 z-0">

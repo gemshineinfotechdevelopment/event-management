@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import eventsRouter from './routes/events.js';
+import enquiriesRouter from './routes/enquiries.js';
 
 // Load environment variables from server/.env
 dotenv.config();
@@ -31,6 +32,7 @@ app.get('/api/health', (req, res) => {
 
 // API Routes
 app.use('/api/events', eventsRouter);
+app.use('/api/enquiries', enquiriesRouter);
 
 // 404 handler
 app.use('*', (req, res) => {

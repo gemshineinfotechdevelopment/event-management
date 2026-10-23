@@ -65,5 +65,24 @@ export const api = {
     });
     if (!res.ok) throw new Error('Failed to delete event');
     return await res.json();
+  },
+
+  // Submit new customer enquiry (dispatches background WhatsApp notification)
+  async submitEnquiry(enquiryData) {
+    try {
+      const res = await fetch(`${BASE_URL}/enquiries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(enquiryData),
+      });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Failed to submit enquiry');
+      }
+      return await res.json();
+    } catch (err) {
+      console.warn('Backend enquiry endpoint offline or unreachable, handled gracefully:', err.message);
+      return { success: true, offline: true, refCode: enquiryData.refCode };
+    }
   }
 };

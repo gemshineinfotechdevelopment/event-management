@@ -1,7 +1,7 @@
 import React from 'react';
 import EventsCTA from '../components/events/EventsCTA';
 import { EventoraLogo } from '../components/common/Icons';
-import { Award, Heart, Star, Sparkles } from 'lucide-react';
+import { Award, Heart, Star, Sparkles, ArrowRight } from 'lucide-react';
 
 const STATS = [
   { value: '1,200+', label: 'Events Executed', desc: 'Across India & destination locales' },
@@ -38,7 +38,7 @@ export default function AboutPage({ onOpenConsultation }) {
     <div className="w-full flex flex-col">
       
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[480px] flex items-center overflow-hidden bg-[#070C18] pt-24 pb-16">
+      <section className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#070C18]">
         <div className="absolute inset-0 z-0">
           <div className="relative w-full h-full">
             <img 
@@ -53,20 +53,87 @@ export default function AboutPage({ onOpenConsultation }) {
           </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="max-w-2xl">
-            <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase block mb-3">
-              ABOUT EVENTORA
-            </span>
-            <h1 className="font-serif-luxury text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-4 leading-tight">
-              Crafting Milestones, <br />
-              <span className="font-script text-[#DFC07B] text-4xl sm:text-5xl lg:text-6xl font-normal">
-                Cherishing Memories
-              </span>
-            </h1>
-            <p className="text-sm sm:text-base text-[#E2DACB] font-light leading-relaxed mb-6">
-              Founded on the belief that life’s most profound moments deserve regal grandeur and soulful warmth, Eventora has grown into a premier luxury celebration architectural studio.
-            </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:py-32 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left Content */}
+            <div className="lg:col-span-8 max-w-2xl text-left">
+              {/* Gold Tag */}
+              <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
+                <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase">
+                  ABOUT EVENTORA
+                </span>
+              </div>
+
+              {/* Main Headline */}
+              <h1 className="leading-[1.12] mb-5 tracking-tight">
+                <span className="block font-serif-luxury text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-md">
+                  Crafting Milestones
+                </span>
+                <span className="block font-script text-4xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-sm font-normal">
+                  Cherishing Memories
+                </span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-sm sm:text-base text-[#E2DACB] font-light leading-relaxed max-w-xl mb-8 drop-shadow">
+                Founded on the belief that life’s most profound moments deserve regal grandeur and soulful warmth, Eventora has grown into a premier luxury celebration architectural studio.
+              </p>
+
+              {/* Highlights Pills */}
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 mb-8">
+                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                    <Award className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="tracking-wide">14+ Years of Mastery</span>
+                </div>
+
+                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                    <Heart className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="tracking-wide">1,200+ Celebrations</span>
+                </div>
+
+                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                    <Star className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="tracking-wide">25+ Design Awards</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  onClick={() => onOpenConsultation('About')}
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold uppercase tracking-wider shadow-lg hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2"
+                >
+                  <span>Book Private Consultation</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Right Calligraphic Accent Box on Desktop */}
+            <div className="hidden lg:flex lg:col-span-4 justify-end">
+              <div className="text-right p-6 rounded-2xl bg-black/35 backdrop-blur-md border border-[#DFC07B]/30 shadow-2xl max-w-xs transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-[#DFC07B] uppercase block mb-2">
+                  OUR PHILOSOPHY
+                </span>
+                <p className="font-script text-2xl text-[#F5EAD2] leading-tight select-none">
+                  Life is a Celebration.<br />
+                  Make every chapter<br />
+                  Unforgettable.
+                </p>
+                <div className="flex justify-end items-center gap-2 mt-4 pt-3 border-t border-white/10 text-xs text-[#DFC07B]">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span className="tracking-wider uppercase font-semibold text-[10px]">The Eventora Legacy</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

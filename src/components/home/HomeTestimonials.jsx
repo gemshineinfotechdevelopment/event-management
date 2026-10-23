@@ -10,7 +10,7 @@ export default function HomeTestimonials() {
       name: "Priya & Arjun",
       role: "Wedding Couple",
       rating: 5,
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+      avatar: "/avatar-1.jpg"
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ export default function HomeTestimonials() {
       name: "Rahul Menon",
       role: "Corporate Client",
       rating: 5,
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+      avatar: "/avatar-2.jpg"
     },
     {
       id: 3,
@@ -26,7 +26,7 @@ export default function HomeTestimonials() {
       name: "Sneha Kumar",
       role: "Parent",
       rating: 5,
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80"
+      avatar: "/avatar-3.jpg"
     }
   ];
 

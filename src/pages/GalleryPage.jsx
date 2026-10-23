@@ -40,34 +40,38 @@ export default function GalleryPage({ onOpenConsultation }) {
     return activeAlbum.photos[activePhotoIndex] || activeAlbum.photos[0];
   }, [activeAlbum, activePhotoIndex]);
 
-  // Filter gallery cards based on activeCategory and currentPage
+  // Filter gallery cards based on activeCategory
   const displayedCards = useMemo(() => {
-    let sourceCards = INITIAL_GALLERY_CARDS;
-    if (currentPage > 1 && ADDITIONAL_PAGES_CARDS[currentPage]) {
-      sourceCards = ADDITIONAL_PAGES_CARDS[currentPage];
-    }
-
     if (activeCategory.toLowerCase() === 'all') {
-      return sourceCards;
+      return INITIAL_GALLERY_CARDS;
     }
 
-    // Filter by category
-    const filtered = sourceCards.filter(card => 
+    const currentAlbum = ALBUMS.find(
+      a => a.id.toLowerCase() === activeCategory.toLowerCase()
+    );
+
+    if (currentAlbum && currentAlbum.photos && currentAlbum.photos.length > 0) {
+      return currentAlbum.photos.map((photo, idx) => ({
+        id: photo.id,
+        category: currentAlbum.category,
+        title: photo.title,
+        eventTitle: currentAlbum.title,
+        photoCount: currentAlbum.photos.length,
+        image: photo.url,
+        gridClass: idx === 0 ? 'col-span-1 lg:row-span-2 min-h-[360px] lg:min-h-[440px]' : 'col-span-1 min-h-[190px] lg:min-h-[210px]',
+        showBadge: true,
+        hasActionArrow: true,
+        location: currentAlbum.location,
+        albumId: currentAlbum.id,
+        description: photo.caption
+      }));
+    }
+
+    return INITIAL_GALLERY_CARDS.filter(card => 
       card.category.toLowerCase().includes(activeCategory.toLowerCase()) ||
       card.albumId?.toLowerCase() === activeCategory.toLowerCase()
     );
-
-    // If filtered list is empty on page 2+, fallback to filtered items from all albums
-    if (filtered.length === 0) {
-      const allCategoryCards = INITIAL_GALLERY_CARDS.filter(card =>
-        card.category.toLowerCase().includes(activeCategory.toLowerCase()) ||
-        card.albumId?.toLowerCase() === activeCategory.toLowerCase()
-      );
-      return allCategoryCards;
-    }
-
-    return filtered;
-  }, [activeCategory, currentPage]);
+  }, [activeCategory]);
 
   // Handlers
   const handleSelectCategory = (catId) => {
@@ -185,7 +189,7 @@ export default function GalleryPage({ onOpenConsultation }) {
         {/* 5. Pagination */}
         <GalleryPagination 
           currentPage={currentPage}
-          totalPages={5}
+          totalPages={1}
           onPageChange={handlePageChange}
         />
 

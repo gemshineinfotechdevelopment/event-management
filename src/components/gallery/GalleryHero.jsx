@@ -3,25 +3,27 @@ import { Sparkles, Users, Award, Heart } from 'lucide-react';
 
 export default function GalleryHero() {
   return (
-    <section className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#070B14]">
+    <section className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#070C18]">
       {/* Background Image: Grand Sunset Mandap */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="/gallery-hero.jpg" 
-          alt="Luxury wedding pavilion at sunset" 
-          className="w-full h-full object-cover object-center scale-105 animate-pulse-subtle"
-        />
-        {/* Cinematic dark gradients matching reference image */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#060A14]/95 via-[#060A14]/75 to-transparent z-1" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-transparent to-[#060A14]/80 z-2" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-black/60 via-transparent to-transparent z-1" />
+        <div className="relative w-full h-full">
+          <img 
+            src="/couple-terrace.jpg" 
+            alt="Romantic couple on Udaipur heritage palace balcony at golden hour sunset" 
+            className="w-full h-full object-cover object-right lg:object-center filter brightness-90 contrast-[1.05]"
+          />
+          {/* Dark luxury gradients matching other hero sections */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/85 md:via-[#070C18]/60 to-transparent z-1" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070C18] via-transparent to-[#070C18]/50 z-2" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#070C18] via-[#070C18]/70 to-transparent z-1" />
+        </div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 sm:py-32 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:py-32 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Text Content */}
-          <div className="lg:col-span-8 max-w-2xl">
+          <div className="lg:col-span-8 max-w-2xl text-left">
             {/* Small Gold Tag */}
             <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
               <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase">
@@ -30,7 +32,7 @@ export default function GalleryHero() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="leading-[1.1] mb-5 tracking-tight">
+            <h1 className="leading-[1.12] mb-5 tracking-tight">
               <span className="block font-serif-luxury text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-md">
                 Moments That
               </span>
@@ -63,16 +65,20 @@ export default function GalleryHero() {
             </div>
           </div>
 
-          {/* Right Calligraphic Quote overlay matching reference */}
+          {/* Right Calligraphic Quote overlay */}
           <div className="hidden lg:flex lg:col-span-4 justify-end">
-            <div className="text-right p-6 rounded-2xl bg-black/25 backdrop-blur-sm border border-white/10 shadow-2xl max-w-xs transform rotate-1 hover:rotate-0 transition-transform duration-500">
+            <div className="text-right p-6 rounded-2xl bg-black/35 backdrop-blur-md border border-[#DFC07B]/30 shadow-2xl max-w-xs transform rotate-1 hover:rotate-0 transition-transform duration-500">
+              <span className="text-[10px] font-bold tracking-[0.25em] text-[#DFC07B] uppercase block mb-2">
+                COLLECTED MEMORIES
+              </span>
               <p className="font-script text-2xl text-[#F5EAD2] leading-tight select-none">
                 Same People<br />
                 Different Stories<br />
                 All Beautiful
               </p>
-              <div className="flex justify-end mt-2 text-[#DFC07B]">
-                <Heart className="w-4 h-4 fill-[#DFC07B]/40 stroke-[#DFC07B]" />
+              <div className="flex justify-end items-center gap-2 mt-4 pt-3 border-t border-white/10 text-xs text-[#DFC07B]">
+                <Heart className="w-3.5 h-3.5 fill-[#DFC07B]/40 stroke-[#DFC07B]" />
+                <span className="tracking-wider uppercase font-semibold text-[10px]">The Eventora Gallery</span>
               </div>
             </div>
           </div>

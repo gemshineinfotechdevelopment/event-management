@@ -1,0 +1,15 @@
+[
+  {
+    "id": "enq_1792748760944",
+    "refCode": "EVT-667460",
+    "name": "Priya Sundaram",
+    "phone": "+91 98765 43210",
+    "email": "priya@example.com",
+    "category": "Wedding",
+    "date": "2026-11-20",
+    "guests": "300 - 600",
+    "city": "Chennai",
+    "notes": "Royal stage decor with pastel flowers",
+    "createdAt": "2026-10-23T09:46:00.944Z"
+  }
+]

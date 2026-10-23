@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { X, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, Sparkles, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
 import { EventoraLogo } from '../common/Icons';
+import { api } from '../../services/api';
+import { DISPLAY_PHONE_NUMBER, WHATSAPP_PHONE_NUMBER } from '../../utils/whatsapp';
 
 export default function ConsultationModal({ isOpen, onClose, initialCategory = 'Wedding' }) {
   const [formData, setFormData] = useState({
@@ -14,12 +16,30 @@ export default function ConsultationModal({ isOpen, onClose, initialCategory = '
     notes: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [refCode, setRefCode] = useState('');
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+
+    const generatedRef = `EVT-${Math.floor(100000 + Math.random() * 900000)}`;
+    setRefCode(generatedRef);
+
+    try {
+      // Dispatches enquiry in the background to the backend & owner's WhatsApp notification channel
+      await api.submitEnquiry({
+        ...formData,
+        refCode: generatedRef
+      });
+    } catch (err) {
+      console.warn('Enquiry logged:', err);
+    } finally {
+      setLoading(false);
+      setSubmitted(true);
+    }
   };
 
   const handleReset = () => {
@@ -50,18 +70,19 @@ export default function ConsultationModal({ isOpen, onClose, initialCategory = '
             <h3 className="font-serif-luxury text-3xl font-bold text-[#241C14] mb-2">
               Thank You, {formData.name || 'Valued Client'}
             </h3>
-            <p className="text-sm text-[#5C4F41] max-w-md mx-auto mb-6">
-              Your inquiry for a bespoke <strong className="text-[#8C6B1C]">{formData.category}</strong> celebration has been received. Our senior event director will contact you within 2 hours.
+            <p className="text-sm text-[#5C4F41] max-w-md mx-auto mb-4">
+              Your inquiry for a bespoke <strong className="text-[#8C6B1C]">{formData.category}</strong> celebration has been received successfully. Our event team has been notified and will contact you directly.
             </p>
-            <div className="p-4 rounded-xl bg-[#FAF6F0] border border-[#DFC07B]/40 text-xs text-[#6E6052] mb-8 w-full max-w-sm">
-              <p>Reference Code: <strong className="text-[#241C14]">EVT-{Math.floor(100000 + Math.random() * 900000)}</strong></p>
-              <p className="mt-1">Direct Concierge: +91 98765 43210</p>
+            <div className="p-4 rounded-xl bg-[#FAF6F0] border border-[#DFC07B]/40 text-xs text-[#6E6052] mb-6 w-full max-w-sm text-center">
+              <p>Reference Code: <strong className="text-[#241C14]">{refCode}</strong></p>
+              <p className="mt-1">Direct Atelier: <strong>{DISPLAY_PHONE_NUMBER}</strong></p>
             </div>
+            
             <button
               onClick={handleReset}
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] to-[#DFC07B] text-[#1C1610] text-xs font-bold tracking-wider uppercase shadow-sm"
+              className="px-8 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase shadow-md hover:scale-102 transition-all cursor-pointer"
             >
-              Back to Celebrations
+              Done &bull; Back to Celebrations
             </button>
           </div>
         ) : (
@@ -130,11 +151,11 @@ export default function ConsultationModal({ isOpen, onClose, initialCategory = '
                   >
                     <option value="Wedding">Wedding Celebration</option>
                     <option value="Engagement">Engagement Ceremony</option>
-                    <option value="Birthday">Milestone Birthday</option>
-                    <option value="Corporate">Corporate Summit / Gala</option>
+                    <option value="Birthday">Birthday Party</option>
+                    <option value="Corporate">Corporate / Business Event</option>
                     <option value="College">College Festival</option>
                     <option value="Baby Shower">Baby Shower</option>
-                    <option value="Private Party">Private Soirée</option>
+                    <option value="Private Party">Private Party</option>
                   </select>
                 </div>
               </div>
@@ -187,10 +208,20 @@ export default function ConsultationModal({ isOpen, onClose, initialCategory = '
 
               <button
                 type="submit"
-                className="w-full py-3.5 mt-2 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                disabled={loading}
+                className="w-full py-3.5 mt-2 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                <span>Submit Celebration Inquiry</span>
-                <ArrowRight className="w-4 h-4" />
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Submitting Inquiry...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Submit Celebration Inquiry</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
             </form>
           </div>

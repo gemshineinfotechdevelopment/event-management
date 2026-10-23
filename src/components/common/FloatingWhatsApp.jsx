@@ -1,4 +1,5 @@
 import React from 'react';
+import { WHATSAPP_PHONE_NUMBER } from '../../utils/whatsapp';
 
 export default function FloatingWhatsApp() {
   return (
@@ -7,7 +8,7 @@ export default function FloatingWhatsApp() {
       aria-label="Direct WhatsApp Contact"
     >
       <a
-        href="https://wa.me/919876543210?text=Hello%20Eventora%2C%20I%20would%20like%20to%20inquire%20about%20planning%20an%20event."
+        href={`https://wa.me/${WHATSAPP_PHONE_NUMBER}?text=Hello%20Eventora%2C%20I%20would%20like%20to%20inquire%20about%20planning%20an%20event.`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"

@@ -18,7 +18,7 @@ const SERVICES = [
     subtitle: 'From Intimate Vows to Grand Royal Celebrations',
     image: '/wedding.jpg',
     icon: Crown,
-    desc: 'Bespoke destination wedding production, opulent mandap artistry, designer florals, custom bridal suites, and complete bridal party choreography.',
+    desc: 'Complete destination wedding planning, grand stage and mandap designs, fresh flowers, bridal suites, and full event coordination.',
     features: [
       'Comprehensive 360° Wedding Management',
       'Architectural Floral Mandap & Stage Styling',
@@ -44,11 +44,11 @@ const SERVICES = [
   },
   {
     id: 'private-parties',
-    title: 'Private Parties & Soirées',
+    title: 'Private Parties & Celebrations',
     subtitle: 'Intimate Elegance & Exquisite Atmosphere',
     image: '/privateparty.jpg',
     icon: Sparkles,
-    desc: 'Enchanting garden dinners, cocktail receptions, milestone anniversaries, and VIP celebrations curated with bespoke lighting, acoustics, and dining.',
+    desc: 'Charming garden dinners, cocktail parties, birthday celebrations, and VIP events organized with beautiful lights, great music, and delicious dining.',
     features: [
       'Festoon & Edison Bulb Canopies over Banquet Tables',
       'Craft Mixology Bars & Signature Cocktails',
@@ -109,7 +109,7 @@ export default function ServicesPage({ onOpenConsultation }) {
     <div className="w-full flex flex-col">
       
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[460px] flex items-center overflow-hidden bg-[#070C18] pt-24 pb-16">
+      <section className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#070C18]">
         <div className="absolute inset-0 z-0">
           <div className="relative w-full h-full">
             <img 
@@ -124,28 +124,85 @@ export default function ServicesPage({ onOpenConsultation }) {
           </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center sm:text-left">
-          <div className="max-w-2xl">
-            <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase block mb-3">
-              WHAT WE DO
-            </span>
-            <h1 className="font-serif-luxury text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-4 leading-tight">
-              Extraordinary Services, <br />
-              <span className="font-script text-[#DFC07B] text-4xl sm:text-5xl lg:text-6xl font-normal">
-                Flawlessly Delivered
-              </span>
-            </h1>
-            <p className="text-sm sm:text-base text-[#E2DACB] font-light leading-relaxed mb-6">
-              From architectural stage design and royal dining to seamless logistics and cinematic capture, Eventora crafts every detail of your special occasion to absolute perfection.
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => onOpenConsultation('Services')}
-                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold uppercase tracking-wider shadow-md hover:scale-102 transition-all cursor-pointer"
-              >
-                Request Custom Proposal
-              </button>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:py-32 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left Content */}
+            <div className="lg:col-span-8 max-w-2xl text-left">
+              {/* Gold Tag */}
+              <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
+                <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase">
+                  WHAT WE DO
+                </span>
+              </div>
+
+              {/* Main Headline */}
+              <h1 className="leading-[1.12] mb-5 tracking-tight">
+                <span className="block font-serif-luxury text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-md">
+                  Extraordinary Services
+                </span>
+                <span className="block font-script text-4xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-sm font-normal">
+                  Flawlessly Delivered
+                </span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-sm sm:text-base text-[#E2DACB] font-light leading-relaxed max-w-xl mb-8 drop-shadow">
+                From architectural stage design and royal dining to seamless logistics and cinematic capture, Eventora crafts every detail of your special occasion to absolute perfection.
+              </p>
+
+              {/* Feature Highlights Pills */}
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 mb-8">
+                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                    <Crown className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="tracking-wide">Turnkey Execution</span>
+                </div>
+
+                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                    <Sparkles className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="tracking-wide">Bespoke Scenography</span>
+                </div>
+
+                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="tracking-wide">Dedicated Concierge</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  onClick={() => onOpenConsultation('Services')}
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold uppercase tracking-wider shadow-lg hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2"
+                >
+                  <span>Request Custom Proposal</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
+
+            {/* Right Calligraphic Accent Box on Desktop */}
+            <div className="hidden lg:flex lg:col-span-4 justify-end">
+              <div className="text-right p-6 rounded-2xl bg-black/35 backdrop-blur-md border border-[#DFC07B]/30 shadow-2xl max-w-xs transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-[#DFC07B] uppercase block mb-2">
+                  MASTER SUITE
+                </span>
+                <p className="font-serif-luxury text-lg text-[#F5EAD2] leading-snug">
+                  "Every detail meticulously orchestrated, from concept to standing ovation."
+                </p>
+                <div className="flex justify-end items-center gap-2 mt-4 pt-3 border-t border-white/10 text-xs text-[#DFC07B]">
+                  <Crown className="w-3.5 h-3.5" />
+                  <span className="tracking-wider uppercase font-semibold text-[10px]">The Eventora Standard</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

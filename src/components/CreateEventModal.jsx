@@ -4,11 +4,11 @@ import { X, Sparkles, Plus, Loader2 } from 'lucide-react';
 const CATEGORIES = ['Technology', 'Music & Arts', 'Design', 'Sustainability', 'Business', 'Health & Fitness'];
 
 const SAMPLE_IMAGES = [
-  'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80'
+  '/hero-stage.jpg',
+  '/wedding.jpg',
+  '/engagement.jpg',
+  '/venue-mandap.jpg',
+  '/venue-stage.jpg'
 ];
 
 export default function CreateEventModal({ isOpen, onClose, onSubmit }) {

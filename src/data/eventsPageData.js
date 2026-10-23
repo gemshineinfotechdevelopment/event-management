@@ -201,7 +201,7 @@ export const PRIMARY_EVENTS = [
 export const ADDITIONAL_CATEGORY_EVENTS = [
   {
     id: 'royal-mandap-wedding',
-    title: 'Royal Mandap Nuptials',
+    title: 'Royal Mandap Wedding',
     category: 'Weddings',
     categoryId: 'weddings',
     dateBadge: {
@@ -213,18 +213,18 @@ export const ADDITIONAL_CATEGORY_EVENTS = [
     icon: WeddingRingsIcon,
     image: '/venue-mandap.jpg',
     thumbnail: '/venue-mandap.jpg',
-    desc: 'Opulent traditional ceremonies with magnificent temple mandap architecture and floral splendor.',
-    longDesc: 'A majestic traditional celebration honoring heritage customs with handcrafted marigold garlands, bronze brass lamps, and serene Vedic hymns.',
+    desc: 'A grand traditional wedding ceremony with a beautiful temple mandap and fresh flower decorations.',
+    longDesc: 'A traditional wedding celebration honoring cultural customs with fresh marigold garlands, traditional brass lamps, and peaceful wedding music.',
     location: 'Grand Heritage Temple Lawns, Chennai',
     timing: '05:00 AM - 12:30 PM',
     guestCapacity: '300 - 1,800+ Guests',
     highlights: [
       'Traditional Hand-Carved Wooden Mandap',
-      'Fresh Jasmine & Marigold Floral Cascades',
+      'Fresh Jasmine & Marigold Flower Decorations',
       'Authentic South Indian Banana Leaf Feast',
-      'Nadaswaram & Carnatic Percussion Ensemble'
+      'Nadaswaram & Traditional Live Music'
     ],
-    accentTag: 'Traditional Heritage'
+    accentTag: 'Traditional Wedding'
   },
   {
     id: 'sunset-ring-ceremony',
@@ -240,22 +240,22 @@ export const ADDITIONAL_CATEGORY_EVENTS = [
     icon: EngagementRingIcon,
     image: '/engagement.jpg',
     thumbnail: '/engagement.jpg',
-    desc: 'Romantic twilight vow exchanges under illuminated circular floral archways.',
-    longDesc: 'A picturesque sunset ceremony overlooking panoramic horizons with bespoke floral arches and glowing fairy light canopies.',
+    desc: 'A romantic sunset engagement ceremony with glowing flower arches and beautiful evening lights.',
+    longDesc: 'A sunset ring ceremony overlooking open horizons with custom flower arches, fairy lights, and romantic music.',
     location: 'Coastal Breeze Terraces, Chennai',
     timing: '05:30 PM - 10:00 PM',
     guestCapacity: '100 - 450+ Guests',
     highlights: [
-      'Circular Rose & Orchid Floral Arch',
-      'Golden Hour Sunset Photography Setup',
-      'Champagne & Sparkling Wine Toast Service',
-      'Live String Quartet Performance'
+      'Circular Rose & Orchid Flower Arch',
+      'Golden Hour Sunset Photo Booth',
+      'Welcome Drinks & Toast Service',
+      'Live Acoustic Music Performance'
     ],
-    accentTag: 'Sunset Romance'
+    accentTag: 'Sunset Engagement'
   },
   {
     id: 'golden-jubilee-birthday',
-    title: 'Golden Jubilee Gala',
+    title: 'Golden 50th Birthday Party',
     category: 'Birthdays',
     categoryId: 'birthdays',
     dateBadge: {
@@ -267,18 +267,18 @@ export const ADDITIONAL_CATEGORY_EVENTS = [
     icon: BirthdayCakeIcon,
     image: '/birthday.jpg',
     thumbnail: '/birthday.jpg',
-    desc: 'An opulent 50th milestone celebration filled with gold accents and live retro melodies.',
-    longDesc: 'Honor life achievements with a black-tie gala featuring gold balloon installations, vintage memories gallery, and multi-course dining.',
+    desc: 'A grand 50th birthday celebration with elegant gold decorations and live classic music songs.',
+    longDesc: 'Celebrate turning 50 with gold balloon decor, a memory photo gallery wall, and a delicious dinner with family and friends.',
     location: 'The Emperor Ballroom, Chennai',
     timing: '07:00 PM - 11:30 PM',
     guestCapacity: '75 - 350+ Guests',
     highlights: [
       'Gold Mirror Walkway & Archway',
-      'Retrospective Memory Wall & Tribute Video',
-      'Retro Big Band Live Music Ensemble',
-      'Signature Caviar & Champagne Station'
+      'Memory Photo Wall & Tribute Video',
+      'Live Classic Band & Favorite Retro Songs',
+      'Welcome Drinks & Special Dessert Station'
     ],
-    accentTag: 'Milestone Honor'
+    accentTag: '50th Birthday Special'
   },
   {
     id: 'tech-innovators-summit',
@@ -321,22 +321,22 @@ export const ADDITIONAL_CATEGORY_EVENTS = [
     icon: BabyShowerIcon,
     image: '/babyshower.jpg',
     thumbnail: '/babyshower.jpg',
-    desc: 'Whimsical garden party with sweet floral arrangements and custom treats.',
-    longDesc: 'Warm joy and laughter with charming wooden dessert carts, custom monogram cake toppers, and delicate pastel floral centerpieces.',
+    desc: 'A sweet garden party with lovely flower decorations and custom cakes.',
+    longDesc: 'Celebrate with joy, dessert carts, custom cakes, and beautiful pastel flower decorations.',
     location: 'Blossom Courtyard Conservatory, Chennai',
     timing: '02:30 PM - 06:30 PM',
     guestCapacity: '35 - 200+ Guests',
     highlights: [
-      'Organic Floral & Balloon Table Runners',
-      'Custom Baby Shower Tier Cake',
-      'Personalized Keepsake Favor Bags',
-      'Gourmet High Tea & Pastries'
+      'Flower & Balloon Table Decorations',
+      'Custom Baby Shower Cake',
+      'Personalized Thank-You Gift Bags',
+      'Snacks, Pastries & Drinks'
     ],
-    accentTag: 'Gentle Whimsy'
+    accentTag: 'Sweet & Joyful'
   },
   {
     id: 'rooftop-cocktail-soiree',
-    title: 'Rooftop Cocktail Soirée',
+    title: 'Rooftop Evening Party',
     category: 'Private Parties',
     categoryId: 'privateparties',
     dateBadge: {
@@ -348,18 +348,18 @@ export const ADDITIONAL_CATEGORY_EVENTS = [
     icon: PartyGlassesIcon,
     image: '/venue-lights.jpg',
     thumbnail: '/venue-lights.jpg',
-    desc: 'Exclusive rooftop lounge soirée with skyline vistas and curated cocktails.',
-    longDesc: 'An electric evening with panoramic skyline views, mixologist cocktail bar, velvet lounge seating, and deep house music.',
+    desc: 'A private rooftop party with stunning city views, great music, and special drinks.',
+    longDesc: 'An exciting evening with panoramic city views, custom drink bars, comfortable lounge seating, and lively music.',
     location: 'The Altitude Penthouse Lounge, Chennai',
     timing: '08:00 PM - 02:00 AM',
     guestCapacity: '40 - 200+ Guests',
     highlights: [
       'Panoramic City Skyline Rooftop Views',
-      'Flair Bartender Show & Craft Cocktails',
-      'Custom LED Backlit Bar Station',
-      'Tapas & Canapés Plated Service'
+      'Live Bartender Show & Mocktails/Cocktails',
+      'Custom LED Lighting & Stage',
+      'Delicious Starters & Plated Dinner'
     ],
-    accentTag: 'Skyline Soirée'
+    accentTag: 'City View Party'
   }
 ];
 

@@ -6,7 +6,7 @@ export default function HomeGallery({ onNavigateGallery }) {
     {
       id: 1,
       title: 'Grand Wedding Mandap',
-      image: '/hero-stage.jpg',
+      image: '/gallery-hero.jpg',
       category: 'Weddings',
     },
     {
@@ -16,6 +16,7 @@ export default function HomeGallery({ onNavigateGallery }) {
       category: 'Dining',
     },
     {
+      
       id: 3,
       title: 'Corporate Leadership Summit',
       image: '/corporate.jpg',
@@ -29,7 +30,7 @@ export default function HomeGallery({ onNavigateGallery }) {
     },
     {
       id: 5,
-      title: 'Outdoor Garden Soirée',
+      title: 'Outdoor Garden Party',
       image: '/venue-lights.jpg',
       category: 'Private Parties',
     },

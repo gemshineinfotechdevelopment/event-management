@@ -1,7 +1,9 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function GalleryPagination({ currentPage, totalPages = 5, onPageChange }) {
+export default function GalleryPagination({ currentPage, totalPages = 1, onPageChange }) {
+  if (totalPages <= 1) return null;
+
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (

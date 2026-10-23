@@ -22,7 +22,7 @@ export const EVENTS_DATA = [
     category: 'Wedding',
     guestRange: '150 - 2,500+ Guests',
     highlights: ['Grand Floral Stage Design', 'Varmala & Mandap Artistry', 'Cinematic 4K Live Broadcast', 'Royal Buffet & Catering'],
-    desc: 'From sacred vows to opulent gala receptions, we craft magical weddings that reflect your unique love story with unmatched royal grandeur.'
+    desc: 'From wedding ceremonies to grand receptions, we create magical weddings with beautiful decorations, royal setups, and unforgettable memories.'
   },
   {
     id: 'engagement',
@@ -77,7 +77,7 @@ export const EVENTS_DATA = [
     category: 'Baby Shower',
     guestRange: '40 - 250+ Guests',
     highlights: ['Dreamy Pastel Cloud Decor', 'Teddy & Floral Centerpieces', 'Custom Dessert Table', 'Keepsake Memory Stations'],
-    desc: 'Shower the parents-to-be with warm joy amidst whimsical pastel cloud aesthetics, gentle floral touches, and heartwarming festivities.'
+    desc: 'Celebrate the parents-to-be with cute pastel balloons, sweet flower decorations, and heartwarming fun.'
   },
   {
     id: 'privateparty',
@@ -87,8 +87,8 @@ export const EVENTS_DATA = [
     icon: Wine,
     category: 'Private Party',
     guestRange: '30 - 300+ Guests',
-    highlights: ['Festoon String Light Canopies', 'Curated Signature Cocktails', 'Acoustic / DJ Lineup', 'Artisanal Plated Dinners'],
-    desc: 'Private dinners, rooftop soirées, anniversary soirees, and cocktail lounges curated with effortless sophistication and unforgettable vibe.'
+    highlights: ['Warm String Light Canopies', 'Refreshing Custom Drinks', 'Live Music & DJ', 'Delicious Dinner Menus'],
+    desc: 'Private dinners, rooftop parties, anniversary celebrations, and drink lounges designed for a fun and unforgettable experience.'
   }
 ];
 
