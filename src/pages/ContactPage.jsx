@@ -34,7 +34,7 @@ export default function ContactPage({ onOpenConsultation }) {
   return (
     <div className="w-full flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#070C18]">
+      <section className="relative w-full min-h-[500px] sm:min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#070C18]">
         <div className="absolute inset-0 z-0">
           <div className="relative w-full h-full">
             <img 
@@ -46,10 +46,12 @@ export default function ContactPage({ onOpenConsultation }) {
             <div className="absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/85 md:via-[#070C18]/60 to-transparent z-1" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#070C18] via-transparent to-[#070C18]/50 z-2" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#070C18] via-[#070C18]/70 to-transparent z-1" />
+            {/* Mobile-only rich dark overlay for crystal-clear readability without changing desktop */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#070C18]/92 via-[#070C18]/85 to-[#070C18]/95 md:hidden z-3 pointer-events-none" />
           </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:py-32 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-14 sm:py-32 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Content */}
@@ -62,38 +64,38 @@ export default function ContactPage({ onOpenConsultation }) {
               </div>
 
               {/* Main Headline */}
-              <h1 className="leading-[1.12] mb-5 tracking-tight">
-                <span className="block font-serif-luxury text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-md">
+              <h1 className="leading-[1.15] mb-4 sm:mb-5 tracking-tight">
+                <span className="block font-serif-luxury text-[32px] sm:text-5xl md:text-6xl font-bold text-white drop-shadow-md">
                   Let’s Plan Something
                 </span>
-                <span className="block font-script text-4xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-sm font-normal">
+                <span className="block font-script text-3xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-sm font-normal">
                   Truly Extraordinary
                 </span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-sm sm:text-base text-[#E2DACB] font-light leading-relaxed max-w-xl mb-8 drop-shadow">
+              <p className="text-sm sm:text-base text-[#FAF7F2] sm:text-[#E2DACB] font-light leading-relaxed max-w-xl mb-6 sm:mb-8 drop-shadow-sm">
                 Have a wedding, anniversary, or corporate celebration in mind? Reach out to our design atelier for a private consultation and bespoke proposal.
               </p>
 
               {/* Highlights Pills */}
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 mb-8">
-                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
-                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+              <div className="grid grid-cols-1 xs:grid-cols-3 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-6 pt-1 mb-7 sm:mb-8">
+                <div className="inline-flex items-center gap-2.5 text-xs sm:text-sm text-[#F5EFEB] font-medium bg-[#0A1224]/70 sm:bg-transparent border border-[#DFC07B]/35 sm:border-0 rounded-lg sm:rounded-none px-3 py-2 sm:p-0 backdrop-blur-xs sm:backdrop-blur-none shadow-xs sm:shadow-none">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/20 border border-[#DFC07B]/50 flex items-center justify-center text-[#DFC07B] shrink-0">
                     <Clock className="w-3.5 h-3.5" />
                   </div>
                   <span className="tracking-wide">24h Response Guarantee</span>
                 </div>
 
-                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
-                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                <div className="inline-flex items-center gap-2.5 text-xs sm:text-sm text-[#F5EFEB] font-medium bg-[#0A1224]/70 sm:bg-transparent border border-[#DFC07B]/35 sm:border-0 rounded-lg sm:rounded-none px-3 py-2 sm:p-0 backdrop-blur-xs sm:backdrop-blur-none shadow-xs sm:shadow-none">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/20 border border-[#DFC07B]/50 flex items-center justify-center text-[#DFC07B] shrink-0">
                     <MessageSquare className="w-3.5 h-3.5" />
                   </div>
                   <span className="tracking-wide">Dedicated Event Director</span>
                 </div>
 
-                <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#F5EFEB] font-medium">
-                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/15 border border-[#DFC07B]/40 flex items-center justify-center text-[#DFC07B] shrink-0">
+                <div className="inline-flex items-center gap-2.5 text-xs sm:text-sm text-[#F5EFEB] font-medium bg-[#0A1224]/70 sm:bg-transparent border border-[#DFC07B]/35 sm:border-0 rounded-lg sm:rounded-none px-3 py-2 sm:p-0 backdrop-blur-xs sm:backdrop-blur-none shadow-xs sm:shadow-none">
+                  <div className="w-6 h-6 rounded-md bg-[#DFC07B]/20 border border-[#DFC07B]/50 flex items-center justify-center text-[#DFC07B] shrink-0">
                     <Sparkles className="w-3.5 h-3.5" />
                   </div>
                   <span className="tracking-wide">Confidential Consultations</span>
@@ -101,18 +103,18 @@ export default function ContactPage({ onOpenConsultation }) {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <button
                   type="button"
                   onClick={() => onOpenConsultation ? onOpenConsultation('Contact') : null}
-                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold uppercase tracking-wider shadow-lg hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2"
+                  className="w-full sm:w-auto justify-center px-6 py-3.5 sm:py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold uppercase tracking-wider shadow-lg hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2"
                 >
                   <span>Book Private Consultation</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
                   href="tel:+919876543210"
-                  className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/15 text-white text-xs font-semibold tracking-wide border border-white/20 transition-all flex items-center gap-2 backdrop-blur-sm"
+                  className="w-full sm:w-auto justify-center px-5 py-3.5 sm:py-3 rounded-full bg-white/10 hover:bg-white/15 text-white text-xs font-semibold tracking-wide border border-white/20 transition-all flex items-center gap-2 backdrop-blur-sm"
                 >
                   <Phone className="w-3.5 h-3.5 text-[#DFC07B]" />
                   <span>Call Directly</span>
