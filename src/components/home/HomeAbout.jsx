@@ -40,7 +40,7 @@ export default function HomeAbout({ onNavigateAbout }) {
               <img
                 src="/banquet.jpg"
                 alt="Eventora Luxury Banquet Setting"
-                className="w-full h-[320px] sm:h-[400px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-[280px] sm:h-[400px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
@@ -60,7 +60,7 @@ export default function HomeAbout({ onNavigateAbout }) {
             <div className="col-span-5 flex flex-col gap-3 sm:gap-4">
               
               {/* Top Supporting Image: Floral Centerpiece */}
-              <div className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-[#E5DAC6] shadow-xs group h-[154px] sm:h-[192px]">
+              <div className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-[#E5DAC6] shadow-xs group h-[134px] sm:h-[192px]">
                 <img
                   src="/dining-centerpiece.jpg"
                   alt="Floral Centerpiece on Table"
@@ -70,7 +70,7 @@ export default function HomeAbout({ onNavigateAbout }) {
               </div>
 
               {/* Bottom Supporting Image: Outdoor Night Party with Lights */}
-              <div className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-[#E5DAC6] shadow-xs group h-[154px] sm:h-[192px]">
+              <div className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-[#E5DAC6] shadow-xs group h-[134px] sm:h-[192px]">
                 <img
                   src="/privateparty.jpg"
                   alt="Outdoor Dining Under Lights"

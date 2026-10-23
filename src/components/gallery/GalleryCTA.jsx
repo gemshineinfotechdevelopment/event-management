@@ -40,10 +40,10 @@ export default function GalleryCTA({ onOpenConsultation }) {
           </div>
 
           {/* Right Gold Pill Button */}
-          <div className="shrink-0">
+          <div className="w-full sm:w-auto shrink-0">
             <button
               onClick={onOpenConsultation}
-              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-[#DFC07B]/25 hover:scale-105 active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-[#DFC07B]/25 hover:scale-105 active:scale-95 cursor-pointer"
             >
               <span>Plan Your Event</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

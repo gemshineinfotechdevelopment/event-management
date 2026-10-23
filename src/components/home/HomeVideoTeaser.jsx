@@ -166,7 +166,7 @@ export default function HomeVideoTeaser({ onOpenVideo }) {
         </div>
 
         {/* Quick Highlights / Metrics Pill */}
-        <div className="inline-flex flex-wrap items-center justify-center gap-6 sm:gap-10 py-3.5 px-6 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-[#F5EFEB] mt-8">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 lg:gap-10 py-3 sm:py-3.5 px-4 sm:px-6 rounded-2xl sm:rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-[#F5EFEB] mt-6 sm:mt-8 max-w-full">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#DFC07B]" />
             <span>4K UHD Experience</span>

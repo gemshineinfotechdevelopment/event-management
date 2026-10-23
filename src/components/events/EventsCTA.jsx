@@ -6,7 +6,7 @@ export default function EventsCTA({ onOpenConsultation }) {
   return (
     <section className="relative bg-[#FAF8F5] py-14 px-4 sm:px-6 lg:px-8 select-none">
       <div className="max-w-7xl mx-auto">
-        <div className="relative rounded-3xl overflow-hidden bg-[#070C18] border border-[#DFC07B]/40 shadow-2xl p-8 sm:p-12 lg:p-14">
+        <div className="relative rounded-3xl overflow-hidden bg-[#070C18] border border-[#DFC07B]/40 shadow-2xl p-6 sm:p-12 lg:p-14">
           
           {/* Subtle Blurred Floral Background Image */}
           <div className="absolute inset-0 pointer-events-none opacity-20">
@@ -27,7 +27,7 @@ export default function EventsCTA({ onOpenConsultation }) {
           </div>
 
           {/* Banner Content Container */}
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 text-center md:text-left">
             
             {/* Left Texts */}
             <div className="flex flex-col max-w-xl">
@@ -43,10 +43,10 @@ export default function EventsCTA({ onOpenConsultation }) {
             </div>
 
             {/* Right Gold Button */}
-            <div className="shrink-0">
+            <div className="w-full sm:w-auto shrink-0">
               <button
                 onClick={onOpenConsultation}
-                className="group inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
+                className="w-full sm:w-auto group inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
               >
                 <span>Contact Us</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

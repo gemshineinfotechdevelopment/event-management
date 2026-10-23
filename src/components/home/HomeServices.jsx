@@ -76,7 +76,7 @@ export default function HomeServices({ onNavigateServices }) {
               <div
                 key={s.id}
                 onClick={onNavigateServices}
-                className="group flex flex-col items-center justify-between p-6 sm:p-7 rounded-2xl bg-white border border-[#E5DAC6] hover:border-[#DFC07B] shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer text-center min-h-[170px]"
+                className="group flex flex-col items-center justify-between p-4 sm:p-6 lg:p-7 rounded-2xl bg-white border border-[#E5DAC6] hover:border-[#DFC07B] shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer text-center min-h-[160px] sm:min-h-[170px]"
                 title={`Explore ${s.title}`}
               >
                 {/* Centered Icon Container */}

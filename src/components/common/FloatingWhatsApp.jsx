@@ -4,7 +4,7 @@ import { WHATSAPP_PHONE_NUMBER } from '../../utils/whatsapp';
 export default function FloatingWhatsApp() {
   return (
     <aside 
-      className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 select-none animate-fadeIn"
+      className="fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-40 select-none animate-fadeIn"
       aria-label="Direct WhatsApp Contact"
     >
       <a
@@ -13,7 +13,7 @@ export default function FloatingWhatsApp() {
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
         title="Chat with Eventora on WhatsApp"
-        className="group relative flex items-center justify-center w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-2xl shadow-black/40 hover:shadow-[0_0_25px_rgba(37,211,102,0.6)] transform hover:scale-110 active:scale-95 transition-all duration-300"
+        className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-2xl shadow-black/40 hover:shadow-[0_0_25px_rgba(37,211,102,0.6)] transform hover:scale-110 active:scale-95 transition-all duration-300"
       >
         {/* Subtle Outer Pulse Ripple */}
         <span className="absolute -inset-1 rounded-full bg-[#25D366]/40 animate-ping opacity-70 pointer-events-none" />
