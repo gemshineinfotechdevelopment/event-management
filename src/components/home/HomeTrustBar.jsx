@@ -3,12 +3,12 @@ import { Award, ShieldCheck, Sparkles } from 'lucide-react';
 
 export default function HomeTrustBar() {
   const partners = [
-    { name: 'The Taj Mahal Palace', location: 'Hospitality Partner' },
-    { name: 'The Ritz-Carlton', location: 'Preferred Luxury Venue' },
-    { name: 'Marriott International', location: 'Global Venue Partner' },
-    { name: 'The Oberoi Group', location: 'Signature Ballroom Partner' },
-    { name: 'Vogue Weddings', location: 'Featured Curators' },
-    { name: 'ITC Grand Chola', location: 'Luxury Venue Partner' },
+    { name: 'ITC Grand Chola', location: 'Chennai · Luxury Palace' },
+    { name: 'The Leela Palace', location: 'Bengaluru · Royal Venue' },
+    { name: 'Taj Falaknuma Palace', location: 'Hyderabad · Heritage Palace' },
+    { name: 'Kumarakom Lake Resort', location: 'Kerala · Destination Partner' },
+    { name: 'Taj West End', location: 'Bengaluru · Heritage Gardens' },
+    { name: 'Taj Coromandel', location: 'Chennai · Iconic Hospitality' },
   ];
 
   return (
@@ -28,7 +28,7 @@ export default function HomeTrustBar() {
               <span className="text-[#DFC07B]/60 text-xs">✦</span>
             </div>
             <p className="text-xs text-[#E2DACB] font-light mt-0.5">
-              Partnered with the world’s finest luxury venues & publications
+              Partnered with South India’s finest luxury palaces & heritage venues
             </p>
           </div>
         </div>
