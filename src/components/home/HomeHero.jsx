@@ -79,11 +79,11 @@ export default function HomeHero({ onOpenConsultation }) {
             })}
           </div>
 
-          {/* Solid Gold Plan Your Event Button */}
-          <div>
+          {/* Solid Gold Plan Your Event Button (Hidden on mobile only) */}
+          <div className="hidden sm:block">
             <button
               onClick={onOpenConsultation}
-              className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 py-3.5 sm:py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
+              className="group inline-flex items-center justify-center gap-2.5 w-auto px-7 py-3 rounded-full bg-gradient-to-r from-[#ECCB7F] via-[#DFC07B] to-[#C5A059] text-[#1C1610] text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
             >
               <span>Plan Your Event</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 text-[#1C1610]" />
