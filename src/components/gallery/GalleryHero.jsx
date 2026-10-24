@@ -10,14 +10,15 @@ export default function GalleryHero() {
           <img 
             src="/couple-terrace.jpg" 
             alt="Romantic couple on Udaipur heritage palace balcony at golden hour sunset" 
-            className="w-full h-full object-cover object-right lg:object-center filter brightness-90 contrast-[1.05]"
+            className="w-full h-full object-cover object-[58%_center] md:object-right lg:object-center filter brightness-100 contrast-[1.02]"
           />
-          {/* Dark luxury gradients matching other hero sections */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/85 md:via-[#070C18]/60 to-transparent z-1" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#070C18] via-transparent to-[#070C18]/50 z-2" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#070C18] via-[#070C18]/70 to-transparent z-1" />
-          {/* Mobile-only rich dark overlay for crystal-clear readability without changing desktop */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#070C18]/92 via-[#070C18]/85 to-[#070C18]/95 md:hidden z-3 pointer-events-none" />
+          {/* Mobile Gradients: reveals royal couple & sunset palace with crisp legibility */}
+          <div className="md:hidden absolute inset-0 bg-gradient-to-b from-[#070C18]/80 via-[#070C18]/45 to-[#070C18]/95 z-1" />
+
+          {/* Dark luxury gradients untouched for desktop */}
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/85 md:via-[#070C18]/60 to-transparent z-1" />
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-[#070C18] via-transparent to-[#070C18]/50 z-2" />
+          <div className="hidden md:block absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#070C18] via-[#070C18]/70 to-transparent z-1" />
         </div>
       </div>
 
@@ -28,17 +29,17 @@ export default function GalleryHero() {
           <div className="lg:col-span-8 max-w-2xl text-left">
             {/* Small Gold Tag */}
             <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
-              <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase">
+              <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
                 OUR GALLERY
               </span>
             </div>
 
             {/* Main Headline */}
             <h1 className="leading-[1.15] mb-4 sm:mb-5 tracking-tight">
-              <span className="block font-serif-luxury text-[32px] sm:text-5xl md:text-6xl font-bold text-white drop-shadow-md">
+              <span className="block font-serif-luxury text-[32px] sm:text-5xl md:text-6xl font-bold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
                 Moments That
               </span>
-              <span className="block font-script text-3xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-sm font-normal">
+              <span className="block font-script text-3xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] font-normal">
                 Tell Beautiful Stories
               </span>
             </h1>

@@ -18,20 +18,21 @@ export default function HomeHero({ onOpenConsultation }) {
   return (
     <section className="relative w-full min-h-[500px] sm:min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#070C18]">
       
-      {/* Background Wedding Stage Pavilion Image on the Right with Soft Dark Blend */}
+      {/* Background Wedding Stage Pavilion Image with Soft Dark Blend */}
       <div className="absolute inset-0 z-0">
         <div className="relative w-full h-full">
           <img 
             src="/hero-stage.jpg" 
             alt="Eventora luxury wedding stage pavilion with chandeliers" 
-            className="w-full h-full object-cover object-right lg:object-center filter brightness-95"
+            className="w-full h-full object-cover object-[center_20%] md:object-right lg:object-center filter brightness-100 contrast-[1.02]"
           />
-          {/* Gradients to seamlessly blend image into dark navy on the left and bottom */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/85 md:via-[#070C18]/65 to-transparent z-1" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#070C18] via-transparent to-[#070C18]/50 z-2" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#070C18] via-[#070C18]/70 to-transparent z-1" />
-          {/* Mobile-only rich dark overlay for crystal-clear readability without changing desktop */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#070C18]/92 via-[#070C18]/85 to-[#070C18]/95 md:hidden z-3 pointer-events-none" />
+          {/* Mobile Gradients: luminous stage visibility & pristine text legibility */}
+          <div className="md:hidden absolute inset-0 bg-gradient-to-b from-[#070C18]/80 via-[#070C18]/45 to-[#070C18]/95 z-1" />
+
+          {/* Desktop Gradients: completely untouched for desktop */}
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-[#070C18] via-[#070C18]/85 md:via-[#070C18]/65 to-transparent z-1" />
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-[#070C18] via-transparent to-[#070C18]/50 z-2" />
+          <div className="hidden md:block absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#070C18] via-[#070C18]/70 to-transparent z-1" />
         </div>
       </div>
 
@@ -40,34 +41,34 @@ export default function HomeHero({ onOpenConsultation }) {
           
           {/* Small Gold Tag */}
           <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
-            <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase">
+            <span className="text-[11px] font-bold tracking-[0.28em] text-[#DFC07B] uppercase drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
               WELCOME TO EVENTORA
             </span>
           </div>
 
           {/* Main Headline matching reference */}
           <h1 className="leading-[1.15] mb-4 sm:mb-5 tracking-tight">
-            <span className="block font-serif-luxury text-[32px] sm:text-5xl md:text-6xl font-bold text-white drop-shadow-md">
+            <span className="block font-serif-luxury text-[32px] sm:text-5xl md:text-6xl font-bold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
               Your Dream Event
             </span>
-            <span className="block font-script text-3xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-sm font-normal">
+            <span className="block font-script text-3xl sm:text-5xl md:text-6xl text-[#DFC07B] mt-1 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] font-normal">
               Our Passion
             </span>
           </h1>
 
           {/* Subtitle / Description */}
-          <p className="text-sm sm:text-base text-[#FAF7F2] sm:text-[#E2DACB] font-light leading-relaxed max-w-xl mb-6 sm:mb-8 drop-shadow-sm">
+          <p className="text-sm sm:text-base text-[#FAF7F2] sm:text-[#E2DACB] font-light leading-relaxed max-w-xl mb-6 sm:mb-8 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             From elegant weddings to grand celebrations, we craft unforgettable moments that reflect your unique story.
           </p>
 
-          {/* Four Categories with Small Gold Icons */}
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-6 mb-7 sm:mb-8">
+          {/* Four Categories with Small Gold Icons (Hidden on mobile, visible on desktop) */}
+          <div className="hidden sm:flex sm:flex-wrap items-center gap-6 mb-7 sm:mb-8">
             {categories.map((cat, idx) => {
               const Icon = cat.icon;
               return (
                 <div 
                   key={idx} 
-                  className="inline-flex items-center gap-2.5 text-xs sm:text-sm text-[#F5EFEB] font-medium bg-[#0A1224]/70 sm:bg-transparent border border-[#DFC07B]/35 sm:border-0 rounded-lg sm:rounded-none px-3 py-2 sm:p-0 backdrop-blur-xs sm:backdrop-blur-none shadow-xs sm:shadow-none"
+                  className="inline-flex items-center gap-2.5 text-xs sm:text-sm text-[#F5EFEB] font-medium bg-transparent border-0 p-0 shadow-none"
                 >
                   <div className="w-6 h-6 rounded-md bg-[#DFC07B]/20 border border-[#DFC07B]/50 flex items-center justify-center text-[#DFC07B] shrink-0">
                     <Icon className="w-3.5 h-3.5" />
