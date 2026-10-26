@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import EventsHero from '../components/events/EventsHero';
 import EventCategoryTabs from '../components/events/EventCategoryTabs';
 import EventCard from '../components/events/EventCard';
@@ -6,19 +6,89 @@ import UpcomingEventsSidebar from '../components/events/UpcomingEventsSidebar';
 import EventsCTA from '../components/events/EventsCTA';
 import EventDetailsModal from '../components/events/EventDetailsModal';
 
-import { getEventsByCategory } from '../data/eventsPageData';
+import { PRIMARY_EVENTS, ADDITIONAL_CATEGORY_EVENTS } from '../data/eventsPageData';
+import { api } from '../services/api';
 
 export default function EventsPage({ onOpenConsultation }) {
-  // 'all' is the default active category as shown in the reference image
+  // 'all' is the default active category
   const [activeCategory, setActiveCategory] = useState('all');
   
   // Selected event for interactive details modal
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  // Dynamic events state initialized with the 6 default primary events
+  const [eventsList, setEventsList] = useState(PRIMARY_EVENTS);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch live events from the backend (reflects newly created admin events)
+  const loadLiveEvents = useCallback(async () => {
+    try {
+      const res = await api.getEvents();
+      const data = res?.data || (Array.isArray(res) ? res : []);
+      if (Array.isArray(data) && data.length > 0) {
+        setEventsList(data);
+      }
+    } catch (err) {
+      console.warn('Backend events offline, using initial defaults:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadLiveEvents();
+
+    // Listen to real-time additions/edits from admin side
+    const handleEventsUpdated = () => {
+      loadLiveEvents();
+    };
+
+    const handleStorageChange = (e) => {
+      if (e.key === 'eventora_events_last_updated') {
+        loadLiveEvents();
+      }
+    };
+
+    window.addEventListener('eventora_events_changed', handleEventsUpdated);
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleEventsUpdated);
+
+    return () => {
+      window.removeEventListener('eventora_events_changed', handleEventsUpdated);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleEventsUpdated);
+    };
+  }, [loadLiveEvents]);
+
   // Get displayed events based on active category
   const displayedEvents = useMemo(() => {
-    return getEventsByCategory(activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === 'all') {
+      return eventsList;
+    }
+
+    const catLower = activeCategory.toLowerCase();
+
+    // 1. Filter from live events list
+    const primaryFiltered = eventsList.filter((evt) => {
+      const c = (evt.category || '').toLowerCase();
+      const cid = (evt.categoryId || '').toLowerCase();
+      return (
+        c === catLower ||
+        cid === catLower ||
+        c.startsWith(catLower.slice(0, 4)) ||
+        catLower.startsWith(c.slice(0, 4)) ||
+        c.includes(catLower) ||
+        catLower.includes(c)
+      );
+    });
+
+    // 2. Add extra category template showcases if not already in list
+    const additionalFiltered = ADDITIONAL_CATEGORY_EVENTS.filter(
+      (e) => e.categoryId.toLowerCase() === catLower && !eventsList.some((el) => el.id === e.id)
+    );
+
+    return [...primaryFiltered, ...additionalFiltered];
+  }, [eventsList, activeCategory]);
 
   const handleSelectCategory = (categoryId) => {
     setActiveCategory(categoryId);
@@ -29,7 +99,7 @@ export default function EventsPage({ onOpenConsultation }) {
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col animate-fadeIn">
       
       {/* 1. Cinematic Hero Banner */}
       <EventsHero />
@@ -66,7 +136,7 @@ export default function EventsPage({ onOpenConsultation }) {
                 </p>
                 <button
                   onClick={() => setActiveCategory('all')}
-                  className="px-6 py-2.5 rounded-full bg-[#0D1527] text-white text-xs font-semibold hover:bg-[#15233D] transition-colors"
+                  className="px-6 py-2.5 rounded-full bg-[#0D1527] text-white text-xs font-semibold hover:bg-[#15233D] transition-colors cursor-pointer"
                 >
                   View All Events
                 </button>
@@ -77,6 +147,7 @@ export default function EventsPage({ onOpenConsultation }) {
           {/* Right Column: Upcoming Events Sidebar (Moves below cards on mobile) */}
           <div className="w-full lg:w-[320px] xl:w-[340px] shrink-0">
             <UpcomingEventsSidebar 
+              events={eventsList}
               onSelectEvent={handleSelectEvent}
               onOpenConsultation={() => onOpenConsultation(activeCategory !== 'all' ? activeCategory : 'General')}
             />

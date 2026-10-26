@@ -1,8 +1,28 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function EventCard({ event, onSelectEvent }) {
-  const Icon = event.icon;
+  const Icon = event.icon || Sparkles;
+
+  // Safe Date Badge extraction with fallback
+  let day = event.dateBadge?.day;
+  let month = event.dateBadge?.month;
+  let year = event.dateBadge?.year;
+
+  if (!day || !month || !year) {
+    if (event.date) {
+      const d = new Date(event.date);
+      if (!isNaN(d.getTime())) {
+        day = String(d.getDate()).padStart(2, '0');
+        month = d.toLocaleString('en-US', { month: 'short' });
+        year = String(d.getFullYear());
+      }
+    }
+  }
+
+  day = day || '01';
+  month = month || 'Jan';
+  year = year || '2026';
 
   return (
     <article 
@@ -12,7 +32,7 @@ export default function EventCard({ event, onSelectEvent }) {
       {/* Card Image Container with Date Badge */}
       <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-[#F3ECE0]">
         <img
-          src={event.image}
+          src={event.image || '/wedding.jpg'}
           alt={event.title}
           className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
           loading="lazy"
@@ -21,16 +41,16 @@ export default function EventCard({ event, onSelectEvent }) {
         {/* Subtle Dark Gradient Overlay at the Top for Badge Contrast */}
         <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
 
-        {/* Date Badge in Top-Left Corner (matches reference) */}
+        {/* Date Badge in Top-Left Corner */}
         <div className="absolute top-3 left-3 z-10 flex flex-col items-center justify-center bg-[#070C18]/92 backdrop-blur-md border border-white/10 rounded-xl px-2.5 py-1.5 shadow-lg min-w-[46px] text-center select-none">
           <span className="text-white text-base sm:text-lg font-bold leading-none font-sans">
-            {event.dateBadge.day}
+            {day}
           </span>
           <span className="text-[#DFC07B] text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase leading-none mt-1">
-            {event.dateBadge.month}
+            {month}
           </span>
           <span className="text-gray-300 text-[9px] font-light leading-none mt-0.5">
-            {event.dateBadge.year}
+            {year}
           </span>
         </div>
 
@@ -48,7 +68,7 @@ export default function EventCard({ event, onSelectEvent }) {
           {/* Icon + Title */}
           <div className="flex items-center gap-2.5 mb-2.5">
             <div className="w-6 h-6 rounded-lg bg-[#FAF6F0] flex items-center justify-center text-[#1C1610] group-hover:text-[#8C6B1C] transition-colors shrink-0">
-              {Icon && <Icon className="w-4 h-4" />}
+              <Icon className="w-4 h-4" />
             </div>
             <h3 className="font-serif-luxury text-base sm:text-lg font-bold text-[#1C1610] group-hover:text-[#8C6B1C] transition-colors leading-snug line-clamp-2">
               {event.title}
@@ -57,7 +77,7 @@ export default function EventCard({ event, onSelectEvent }) {
 
           {/* Description */}
           <p className="text-xs text-[#5C4F41] leading-relaxed line-clamp-3 mb-5">
-            {event.desc}
+            {event.desc || event.description || 'Exclusive luxury celebration curated by Eventora master artisans.'}
           </p>
         </div>
 

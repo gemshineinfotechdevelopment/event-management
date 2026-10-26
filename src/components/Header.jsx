@@ -185,6 +185,13 @@ export default function Header({ activePage = 'home', onNavigate, onOpenConsulta
                   <span>Plan Your Event</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
+
+                <button
+                  onClick={() => handleLinkClick('admin')}
+                  className="w-full py-1 text-center text-[11px] text-[#DFC07B]/60 hover:text-[#DFC07B] transition-colors cursor-pointer"
+                >
+                  Admin Portal &rarr;
+                </button>
               </div>
             </nav>
           </div>

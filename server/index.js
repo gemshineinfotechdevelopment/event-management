@@ -9,9 +9,10 @@ import mongoose from 'mongoose';
 import { connectDB } from './config/db.js';
 import eventsRouter from './routes/events.js';
 import enquiriesRouter from './routes/enquiries.js';
+import settingsRouter from './routes/settings.js';
 
 // Load environment variables from server/.env
-dotenv.config();
+dotenv.config(); // auto-reload trigger
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +30,10 @@ const allowedOrigins = [
   'http://eventora.gemshine.tech',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5174',
+  'http://localhost:5175',
+  'http://127.0.0.1:5175',
   'http://localhost:5023',
   'http://127.0.0.1:5023',
   CLIENT_URL
@@ -39,7 +44,12 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, server-to-server)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin) || origin.endsWith('.gemshine.tech')) {
+    if (
+      allowedOrigins.includes(origin) || 
+      origin.endsWith('.gemshine.tech') || 
+      origin.startsWith('http://localhost:') || 
+      origin.startsWith('http://127.0.0.1:')
+    ) {
       return callback(null, true);
     }
     return callback(null, true); // Permissive in production behind Nginx reverse proxy
@@ -69,6 +79,7 @@ app.get('/api/health', (req, res) => {
 // API Routes
 app.use('/api/events', eventsRouter);
 app.use('/api/enquiries', enquiriesRouter);
+app.use('/api/settings', settingsRouter);
 
 // Serve Frontend build if dist folder exists (e.g. In VPS single-port mode)
 const distPath = path.join(__dirname, '..', 'dist');

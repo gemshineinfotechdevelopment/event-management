@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Phone, Mail, MapPin, MessageSquare, Send, CheckCircle2, Clock, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 import { DISPLAY_PHONE_NUMBER } from '../utils/whatsapp';
 import { api } from '../services/api';
+import { useSettings } from '../context/SettingsContext';
 
 export default function ContactPage({ onOpenConsultation }) {
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -114,7 +116,7 @@ export default function ContactPage({ onOpenConsultation }) {
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
-                  href="tel:+919876543210"
+                  href={`tel:${settings.phone}`}
                   className="w-full sm:w-auto justify-center px-5 py-3.5 sm:py-3 rounded-full bg-white/10 hover:bg-white/15 text-white text-xs font-semibold tracking-wide border border-white/20 transition-all flex items-center gap-2 backdrop-blur-sm"
                 >
                   <Phone className="w-3.5 h-3.5 text-[#DFC07B]" />
@@ -171,9 +173,9 @@ export default function ContactPage({ onOpenConsultation }) {
                 </div>
                 <div>
                   <h4 className="font-serif-luxury text-base font-bold text-[#1C1610]">Phone & Direct Inquiries</h4>
-                  <p className="text-xs text-[#786C5E] mt-0.5">Mon – Sat: 9:30 AM to 8:00 PM</p>
-                  <a href="tel:+919876543210" className="text-xs font-bold text-[#8C6B1C] hover:underline mt-1 inline-block">
-                    +91 98765 43210
+                  <p className="text-xs text-[#786C5E] mt-0.5">{settings.businessHours || 'Mon – Sat: 9:30 AM to 8:00 PM'}</p>
+                  <a href={`tel:${settings.phone}`} className="text-xs font-bold text-[#8C6B1C] hover:underline mt-1 inline-block">
+                    {settings.phone}
                   </a>
                 </div>
               </div>
@@ -186,8 +188,8 @@ export default function ContactPage({ onOpenConsultation }) {
                 <div>
                   <h4 className="font-serif-luxury text-base font-bold text-[#1C1610]">Email Concierge</h4>
                   <p className="text-xs text-[#786C5E] mt-0.5">We reply to every inquiry within 24 hours</p>
-                  <a href="mailto:hello@eventora.com" className="text-xs font-bold text-[#8C6B1C] hover:underline mt-1 inline-block">
-                    hello@eventora.com
+                  <a href={`mailto:${settings.email}`} className="text-xs font-bold text-[#8C6B1C] hover:underline mt-1 inline-block">
+                    {settings.email}
                   </a>
                 </div>
               </div>
@@ -200,7 +202,7 @@ export default function ContactPage({ onOpenConsultation }) {
                 <div>
                   <h4 className="font-serif-luxury text-base font-bold text-[#1C1610]">Atelier Location</h4>
                   <p className="text-xs text-[#5C4F41] mt-0.5 leading-relaxed">
-                    The Royal Pavilion Atelier, Boat Club Road, R.A. Puram, Chennai, Tamil Nadu 600028
+                    {settings.address || 'The Royal Pavilion Atelier, Boat Club Road, R.A. Puram, Chennai, Tamil Nadu 600028'}
                   </p>
                 </div>
               </div>
@@ -231,7 +233,7 @@ export default function ContactPage({ onOpenConsultation }) {
                 </p>
 
                 <div className="p-4 rounded-xl bg-[#FAF6F0] border border-[#DFC07B]/40 text-xs text-[#6E6052] mb-6 w-full max-w-sm text-center">
-                  <p>Concierge Phone: <strong>{DISPLAY_PHONE_NUMBER}</strong></p>
+                  <p>Concierge Phone: <strong>{settings.phone}</strong></p>
                   <p className="text-[11px] text-[#8C6B1C] mt-1 font-medium">Estimated Response: Within 2 Hours</p>
                 </div>
 

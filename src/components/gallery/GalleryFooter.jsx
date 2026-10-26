@@ -8,8 +8,10 @@ import {
   BotanicalCorner 
 } from '../common/Icons';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { useSettings } from '../../context/SettingsContext';
 
 export default function GalleryFooter({ onNavigate, onSelectCategory }) {
+  const { settings } = useSettings();
   const quickLinks = [
     { id: 'home', label: 'Home' },
     { id: 'events', label: 'Events' },
@@ -137,19 +139,19 @@ export default function GalleryFooter({ onNavigate, onSelectCategory }) {
             <ul className="flex flex-col gap-3">
               <li className="flex items-center gap-3 text-xs text-[#A0988A]">
                 <Phone className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
-                <a href="tel:+919876543210" className="hover:text-[#DFC07B] transition-colors">
-                  +91 98765 43210
+                <a href={`tel:${settings.phone}`} className="hover:text-[#DFC07B] transition-colors">
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-xs text-[#A0988A]">
                 <Mail className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
-                <a href="mailto:hello@eventora.com" className="hover:text-[#DFC07B] transition-colors">
-                  hello@eventora.com
+                <a href={`mailto:${settings.email}`} className="hover:text-[#DFC07B] transition-colors">
+                  {settings.email}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-xs text-[#A0988A]">
                 <MapPin className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
-                <span>Chennai, Tamil Nadu</span>
+                <span>{settings.city || 'Chennai, Tamil Nadu'}</span>
               </li>
             </ul>
           </div>

@@ -7,9 +7,11 @@ import {
   LinkedinIcon,
   BotanicalCorner 
 } from './common/Icons';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldCheck } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 export default function Footer({ onNavigate, onOpenConsultation }) {
+  const { settings } = useSettings();
   const quickLinks = [
     { id: 'home', label: 'Home' },
     { id: 'events', label: 'Events' },
@@ -144,31 +146,41 @@ export default function Footer({ onNavigate, onOpenConsultation }) {
             <ul className="flex flex-col gap-3">
               <li className="flex items-center gap-3 text-xs text-[#A0988A]">
                 <Phone className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
-                <a href="tel:+919876543210" className="hover:text-[#DFC07B] transition-colors">
-                  +91 98765 43210
+                <a href={`tel:${settings.phone}`} className="hover:text-[#DFC07B] transition-colors">
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-xs text-[#A0988A]">
                 <Mail className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
-                <a href="mailto:hello@eventora.com" className="hover:text-[#DFC07B] transition-colors">
-                  hello@eventora.com
+                <a href={`mailto:${settings.email}`} className="hover:text-[#DFC07B] transition-colors">
+                  {settings.email}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-xs text-[#A0988A]">
                 <MapPin className="w-3.5 h-3.5 text-[#DFC07B] shrink-0" />
-                <span>Chennai, Tamil Nadu</span>
+                <span>{settings.city || 'Chennai, Tamil Nadu'}</span>
               </li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom Bar: Copyright */}
+        {/* Bottom Bar: Copyright & Admin Portal */}
         <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#70685A]">
-          <p>© 2025 Eventora. All rights reserved.</p>
-          <p className="text-[11px] text-[#DFC07B]/80 font-medium tracking-wide">
-            Dreams &bull; Designs &bull; Celebrations
-          </p>
+          <p>© 2026 Eventora. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <span className="text-[11px] text-[#DFC07B]/80 font-medium tracking-wide">
+              Dreams &bull; Designs &bull; Celebrations
+            </span>
+            <span className="text-white/20">&bull;</span>
+            <button
+              onClick={() => handleLinkClick('admin')}
+              className="text-[#DFC07B]/60 hover:text-[#DFC07B] transition-colors cursor-pointer text-[11px] font-medium flex items-center gap-1 hover:underline"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Admin Portal</span>
+            </button>
+          </div>
         </div>
 
       </div>

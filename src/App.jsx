@@ -17,22 +17,81 @@ import ImageLightboxModal from './components/modals/ImageLightboxModal';
 import EventDetailsModal from './components/modals/EventDetailsModal';
 import SearchModal from './components/modals/SearchModal';
 import FloatingWhatsApp from './components/common/FloatingWhatsApp';
+import { AdminLayout } from './admin';
+
+// Parse current route from window.location and clean up any legacy hashtags
+function resolveCurrentRoute() {
+  if (typeof window === 'undefined') {
+    return { view: 'home', adminTab: 'dashboard' };
+  }
+
+  let pathname = window.location.pathname.toLowerCase();
+  const rawHash = window.location.hash.toLowerCase().replace('#', '').trim();
+
+  // If there is an old hashtag in the URL (e.g. #admin, #admin/settings, #events), convert to clean path
+  if (rawHash) {
+    let cleanPath = '/';
+    let targetTab = 'dashboard';
+
+    if (rawHash.startsWith('admin-dashboard-panel') || rawHash.startsWith('admin')) {
+      if (rawHash.includes('enquir')) {
+        cleanPath = '/admin-dashboard-panel/enquiries';
+        targetTab = 'enquiries';
+      } else if (rawHash.includes('event')) {
+        cleanPath = '/admin-dashboard-panel/events';
+        targetTab = 'events';
+      } else if (rawHash.includes('setting')) {
+        cleanPath = '/admin-dashboard-panel/settings';
+        targetTab = 'settings';
+      } else {
+        cleanPath = '/admin-dashboard-panel';
+        targetTab = 'dashboard';
+      }
+      window.history.replaceState(null, '', cleanPath);
+      return { view: 'admin', adminTab: targetTab };
+    } else if (['events', 'gallery', 'services', 'about', 'why-us', 'contact', 'home'].includes(rawHash)) {
+      const page = rawHash === 'why-us' ? 'about' : (rawHash === 'home' ? '' : rawHash);
+      cleanPath = page ? `/${page}` : '/';
+      window.history.replaceState(null, '', cleanPath);
+      return { view: page || 'home', adminTab: 'dashboard' };
+    }
+  }
+
+  // Pure path-based routing (NO HASHTAG)
+  if (pathname.startsWith('/admin-dashboard-panel') || pathname.startsWith('/admin')) {
+    let adminTab = 'dashboard';
+    if (pathname.includes('/enquiries') || pathname.includes('/enquiry')) {
+      adminTab = 'enquiries';
+    } else if (pathname.includes('/events') || pathname.includes('/event')) {
+      adminTab = 'events';
+    } else if (pathname.includes('/settings') || pathname.includes('/setting')) {
+      adminTab = 'settings';
+    }
+
+    // Normalize legacy /admin paths to /admin-dashboard-panel
+    if (pathname.startsWith('/admin/')) {
+      const sub = pathname.replace('/admin/', '');
+      window.history.replaceState(null, '', `/admin-dashboard-panel/${sub}`);
+    } else if (pathname === '/admin') {
+      window.history.replaceState(null, '', '/admin-dashboard-panel');
+    }
+
+    return { view: 'admin', adminTab };
+  }
+
+  if (pathname === '/events' || pathname.startsWith('/events/')) return { view: 'events', adminTab: 'dashboard' };
+  if (pathname === '/gallery' || pathname.startsWith('/gallery/')) return { view: 'gallery', adminTab: 'dashboard' };
+  if (pathname === '/services' || pathname.startsWith('/services/')) return { view: 'services', adminTab: 'dashboard' };
+  if (pathname === '/about' || pathname === '/why-us' || pathname.startsWith('/about/')) return { view: 'about', adminTab: 'dashboard' };
+  if (pathname === '/contact' || pathname.startsWith('/contact/')) return { view: 'contact', adminTab: 'dashboard' };
+
+  return { view: 'home', adminTab: 'dashboard' };
+}
 
 export default function App() {
-  // Determine initial view based on URL hash or path
-  const [currentView, setCurrentView] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash.toLowerCase().replace('#', '');
-      if (hash === 'events') return 'events';
-      if (hash === 'gallery') return 'gallery';
-      if (hash === 'services') return 'services';
-      if (hash === 'about' || hash === 'why-us') return 'about';
-      if (hash === 'contact') return 'contact';
-      if (hash === 'home') return 'home';
-    }
-    // Default to 'home'
-    return 'home';
-  });
+  const initialRoute = resolveCurrentRoute();
+  const [currentView, setCurrentView] = useState(initialRoute.view);
+  const [adminTab, setAdminTab] = useState(initialRoute.adminTab);
 
   const [consultationOpen, setConsultationOpen] = useState(false);
   const [initialCategory, setInitialCategory] = useState('Wedding');
@@ -60,13 +119,20 @@ export default function App() {
     setSelectedEvent(event);
   };
 
-  // General page navigation
+  // General page navigation (using clean path URLs without hashtags)
   const handleNavigatePage = useCallback((pageName) => {
-    const validViews = ['home', 'events', 'gallery', 'services', 'about', 'contact'];
+    const validViews = ['home', 'events', 'gallery', 'services', 'about', 'contact', 'admin'];
     const target = pageName === 'why-us' ? 'about' : pageName;
     if (validViews.includes(target)) {
       setCurrentView(target);
-      window.history.pushState(null, '', `#${target}`);
+      let targetPath = '/';
+      if (target === 'admin') {
+        targetPath = '/admin-dashboard-panel';
+        setAdminTab('dashboard');
+      } else if (target !== 'home') {
+        targetPath = `/${target}`;
+      }
+      window.history.pushState(null, '', targetPath);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, []);
@@ -105,42 +171,48 @@ export default function App() {
     }
 
     setCurrentView('home');
-    const targetHash = sectionId === 'home' ? '#home' : `#${sectionId}`;
-    window.history.pushState(null, '', targetHash);
+    window.history.pushState(null, '', '/');
 
     // Scroll to section after state update
-    setTimeout(() => {
-      if (sectionId === 'home') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      const el = document.getElementById(sectionId);
-      if (el) {
-        const headerOffset = 84;
-        const elementPosition = el.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: Math.max(0, offsetPosition),
-          behavior: 'smooth'
-        });
-      }
-    }, 80);
+    if (sectionId && sectionId !== 'home') {
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const headerOffset = 84;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+        }
+      }, 80);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [handleNavigatePage]);
 
   // Listen to browser Back/Forward navigation
   useEffect(() => {
     const handlePopState = () => {
-      const hash = window.location.hash.toLowerCase().replace('#', '');
-      if (['events', 'gallery', 'services', 'about', 'contact'].includes(hash)) {
-        setCurrentView(hash === 'why-us' ? 'about' : hash);
-      } else {
-        setCurrentView('home');
-      }
+      const route = resolveCurrentRoute();
+      setCurrentView(route.view);
+      setAdminTab(route.adminTab);
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  // If viewing admin portal, render dedicated AdminLayout with clean URL path
+  if (currentView === 'admin') {
+    return (
+      <AdminLayout 
+        onExitAdmin={() => handleNavigatePage('home')}
+        initialTab={adminTab || 'dashboard'}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#E2C787] selection:text-[#1C1610]">

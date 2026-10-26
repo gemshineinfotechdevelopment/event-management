@@ -1,14 +1,18 @@
 import React from 'react';
 import { WHATSAPP_PHONE_NUMBER } from '../../utils/whatsapp';
+import { useSettings } from '../../context/SettingsContext';
 
 export default function FloatingWhatsApp() {
+  const { settings } = useSettings();
+  const phoneTarget = settings?.rawPhone || WHATSAPP_PHONE_NUMBER;
+
   return (
     <aside 
       className="fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-40 select-none animate-fadeIn"
       aria-label="Direct WhatsApp Contact"
     >
       <a
-        href={`https://wa.me/${WHATSAPP_PHONE_NUMBER}?text=Hello%20Eventora%2C%20I%20would%20like%20to%20inquire%20about%20planning%20an%20event.`}
+        href={`https://wa.me/${phoneTarget}?text=Hello%20Eventora%2C%20I%20would%20like%20to%20inquire%20about%20planning%20an%20event.`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"

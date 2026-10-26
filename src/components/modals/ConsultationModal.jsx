@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { X, Sparkles, CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
 import { EventoraLogo } from '../common/Icons';
 import { api } from '../../services/api';
-import { DISPLAY_PHONE_NUMBER, WHATSAPP_PHONE_NUMBER } from '../../utils/whatsapp';
+import { useSettings } from '../../context/SettingsContext';
 
 export default function ConsultationModal({ isOpen, onClose, initialCategory = 'Wedding' }) {
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -75,7 +76,7 @@ export default function ConsultationModal({ isOpen, onClose, initialCategory = '
             </p>
             <div className="p-4 rounded-xl bg-[#FAF6F0] border border-[#DFC07B]/40 text-xs text-[#6E6052] mb-6 w-full max-w-sm text-center">
               <p>Reference Code: <strong className="text-[#241C14]">{refCode}</strong></p>
-              <p className="mt-1">Direct Atelier: <strong>{DISPLAY_PHONE_NUMBER}</strong></p>
+              <p className="mt-1">Direct Atelier: <strong>{settings.phone}</strong></p>
             </div>
             
             <button

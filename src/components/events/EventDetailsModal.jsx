@@ -4,6 +4,26 @@ import { X, Calendar, MapPin, Clock, Users, Sparkles, Check, ArrowRight } from '
 export default function EventDetailsModal({ event, onClose, onPlanEvent }) {
   if (!event) return null;
 
+  // Safe Date Badge extraction
+  let day = event.dateBadge?.day;
+  let month = event.dateBadge?.month;
+  let year = event.dateBadge?.year;
+
+  if (!day || !month || !year) {
+    if (event.date) {
+      const d = new Date(event.date);
+      if (!isNaN(d.getTime())) {
+        day = String(d.getDate()).padStart(2, '0');
+        month = d.toLocaleString('en-US', { month: 'short' });
+        year = String(d.getFullYear());
+      }
+    }
+  }
+
+  day = day || '01';
+  month = month || 'Jan';
+  year = year || '2026';
+
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fadeIn"
@@ -28,7 +48,7 @@ export default function EventDetailsModal({ event, onClose, onPlanEvent }) {
         {/* Large Header Image with Date & Category Badges */}
         <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-black">
           <img
-            src={event.image}
+            src={event.image || event.thumbnail || '/wedding.jpg'}
             alt={event.title}
             className="w-full h-full object-cover object-center filter brightness-95"
           />
@@ -37,13 +57,13 @@ export default function EventDetailsModal({ event, onClose, onPlanEvent }) {
           {/* Date Badge overlay */}
           <div className="absolute top-4 left-4 z-10 flex flex-col items-center justify-center bg-[#070C18]/92 backdrop-blur-md border border-white/20 rounded-xl px-3 py-2 shadow-xl text-center select-none">
             <span className="text-white text-lg font-bold leading-none font-sans">
-              {event.dateBadge?.day}
+              {day}
             </span>
             <span className="text-[#DFC07B] text-[11px] font-semibold tracking-wider uppercase leading-none mt-1">
-              {event.dateBadge?.month}
+              {month}
             </span>
             <span className="text-gray-300 text-[9.5px] font-light leading-none mt-0.5">
-              {event.dateBadge?.year}
+              {year}
             </span>
           </div>
 
@@ -73,7 +93,7 @@ export default function EventDetailsModal({ event, onClose, onPlanEvent }) {
           
           {/* Detailed Description */}
           <p className="text-xs sm:text-sm text-[#5C4F41] leading-relaxed">
-            {event.longDesc || event.desc}
+            {event.longDesc || event.description || event.desc || 'A signature luxury celebration curated by Eventora master artisans.'}
           </p>
 
           {/* Key Event Details Grid */}
@@ -86,7 +106,7 @@ export default function EventDetailsModal({ event, onClose, onPlanEvent }) {
               </div>
               <div className="min-w-0">
                 <p className="text-[10px] text-[#786C5E] uppercase tracking-wider font-bold">Timing</p>
-                <p className="text-xs font-semibold text-[#1C1610] truncate">{event.timing || 'Customizable'}</p>
+                <p className="text-xs font-semibold text-[#1C1610] truncate">{event.timing || event.time || 'Customizable'}</p>
               </div>
             </div>
 
@@ -97,7 +117,7 @@ export default function EventDetailsModal({ event, onClose, onPlanEvent }) {
               </div>
               <div className="min-w-0">
                 <p className="text-[10px] text-[#786C5E] uppercase tracking-wider font-bold">Capacity</p>
-                <p className="text-xs font-semibold text-[#1C1610] truncate">{event.guestCapacity || 'All Sizes'}</p>
+                <p className="text-xs font-semibold text-[#1C1610] truncate">{event.guestCapacity || (event.capacity ? `${event.capacity} Guests` : 'All Sizes')}</p>
               </div>
             </div>
 
@@ -108,7 +128,7 @@ export default function EventDetailsModal({ event, onClose, onPlanEvent }) {
               </div>
               <div className="min-w-0">
                 <p className="text-[10px] text-[#786C5E] uppercase tracking-wider font-bold">Venue</p>
-                <p className="text-xs font-semibold text-[#1C1610] truncate">{event.location || 'Chennai, TN'}</p>
+                <p className="text-xs font-semibold text-[#1C1610] truncate">{event.location || 'Eventora Private Pavilion, Chennai'}</p>
               </div>
             </div>
 

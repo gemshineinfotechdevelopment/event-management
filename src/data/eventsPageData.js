@@ -22,6 +22,35 @@ export const EVENT_CATEGORIES = [
 
 export const PRIMARY_EVENTS = [
   {
+    id: 'evt-1792998772309',
+    title: 'Royal Sangeet & Mehndi Gala',
+    category: 'Wedding',
+    categoryId: 'weddings',
+    date: '2026-06-15',
+    dateBadge: {
+      day: '15',
+      month: 'Jun',
+      year: '2026',
+      fullDate: '15 Jun 2026'
+    },
+    icon: WeddingRingsIcon,
+    image: '/wedding.jpg',
+    thumbnail: '/wedding.jpg',
+    desc: 'An enchanting evening of music, dance, and cultural splendor with bespoke floral decor.',
+    longDesc: 'An enchanting evening of music, dance, and cultural splendor with bespoke floral decor, royal seating, and live celebratory performances.',
+    location: 'The Leela Palace Ballroom, Chennai',
+    timing: '06:00 PM - 11:30 PM',
+    guestCapacity: '350 Guests',
+    capacity: 350,
+    price: 0,
+    highlights: [
+      'Curated Theme & Bespoke Lighting Ambience',
+      'Gourmet Catering & Refreshment Experience',
+      'VIP Event Protocol & Concierge Support'
+    ],
+    accentTag: 'Signature Celebration'
+  },
+  {
     id: 'grand-wedding-ceremony',
     title: 'Grand Wedding Ceremony',
     category: 'Weddings',

@@ -1,10 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar, MapPin, Users, Clock, ArrowRight, Sparkles } from 'lucide-react';
 import { PRIMARY_EVENTS } from '../../data/eventsPageData';
+import { api } from '../../services/api';
 
 export default function HomeFeaturedEvents({ onNavigateEvents, onOpenConsultation }) {
-  // Select 3 standout primary events
-  const featured = PRIMARY_EVENTS.slice(0, 3);
+  const [eventsList, setEventsList] = useState(PRIMARY_EVENTS);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch live events from the backend (reflects newly created admin events)
+  const fetchLiveEvents = useCallback(async () => {
+    try {
+      const res = await api.getEvents();
+      const data = res?.data || (Array.isArray(res) ? res : []);
+      if (Array.isArray(data) && data.length > 0) {
+        setEventsList(data);
+      }
+    } catch (err) {
+      console.warn('Backend events offline, using initial defaults:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchLiveEvents();
+
+    // Listen to real-time events change from admin side
+    const handleEventsChange = () => {
+      fetchLiveEvents();
+    };
+
+    const handleStorageChange = (e) => {
+      if (e.key === 'eventora_events_last_updated') {
+        fetchLiveEvents();
+      }
+    };
+
+    window.addEventListener('eventora_events_changed', handleEventsChange);
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleEventsChange);
+
+    return () => {
+      window.removeEventListener('eventora_events_changed', handleEventsChange);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleEventsChange);
+    };
+  }, [fetchLiveEvents]);
+
+  // Select 3 standout primary/live events
+  const featured = (eventsList && eventsList.length > 0 ? eventsList : PRIMARY_EVENTS).slice(0, 3);
 
   return (
     <section className="relative bg-[#FAF6F0] py-18 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-[#EFE5D5] select-none">
@@ -42,7 +86,28 @@ export default function HomeFeaturedEvents({ onNavigateEvents, onOpenConsultatio
         {/* 3 Featured Event Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {featured.map((ev) => {
-            const Icon = ev.icon;
+            const Icon = ev.icon || Sparkles;
+
+            // Safe date badge formatting
+            let day = ev.dateBadge?.day;
+            let month = ev.dateBadge?.month;
+            let year = ev.dateBadge?.year;
+
+            if (!day || !month || !year) {
+              if (ev.date) {
+                const d = new Date(ev.date);
+                if (!isNaN(d.getTime())) {
+                  day = String(d.getDate()).padStart(2, '0');
+                  month = d.toLocaleString('en-US', { month: 'short' });
+                  year = String(d.getFullYear());
+                }
+              }
+            }
+
+            day = day || '01';
+            month = month || 'Jan';
+            year = year || '2026';
+
             return (
               <div
                 key={ev.id}
@@ -51,7 +116,7 @@ export default function HomeFeaturedEvents({ onNavigateEvents, onOpenConsultatio
                 {/* Event Image Banner with Date Badge */}
                 <div className="relative h-56 sm:h-64 overflow-hidden">
                   <img
-                    src={ev.image}
+                    src={ev.image || ev.thumbnail || '/wedding.jpg'}
                     alt={ev.title}
                     className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
                     loading="lazy"
@@ -61,10 +126,10 @@ export default function HomeFeaturedEvents({ onNavigateEvents, onOpenConsultatio
                   {/* Left Floating Date Badge */}
                   <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 px-3.5 text-center shadow-md border border-[#DFC07B]/40">
                     <span className="block font-serif-luxury text-xl font-bold text-[#1C1610] leading-none">
-                      {ev.dateBadge.day}
+                      {day}
                     </span>
                     <span className="block text-[10px] font-bold text-[#8C6B1C] tracking-wider uppercase mt-0.5">
-                      {ev.dateBadge.month} {ev.dateBadge.year}
+                      {month} {year}
                     </span>
                   </div>
 
@@ -78,7 +143,7 @@ export default function HomeFeaturedEvents({ onNavigateEvents, onOpenConsultatio
                   {/* Category Pill at bottom left of image */}
                   <div className="absolute bottom-3 left-4 flex items-center gap-1.5 text-xs text-white/90 font-medium">
                     <div className="w-5 h-5 rounded-full bg-[#DFC07B]/30 flex items-center justify-center text-[#DFC07B]">
-                      {Icon && <Icon className="w-3 h-3" />}
+                      <Icon className="w-3 h-3" />
                     </div>
                     <span>{ev.category}</span>
                   </div>
@@ -92,7 +157,7 @@ export default function HomeFeaturedEvents({ onNavigateEvents, onOpenConsultatio
                     </h3>
 
                     <p className="text-xs sm:text-sm text-[#645547] leading-relaxed line-clamp-2 mb-4">
-                      {ev.desc}
+                      {ev.desc || ev.description}
                     </p>
 
                     {/* Metadata Items */}
@@ -103,11 +168,11 @@ export default function HomeFeaturedEvents({ onNavigateEvents, onOpenConsultatio
                       </div>
                       <div className="flex items-center gap-2">
                         <Users className="w-3.5 h-3.5 text-[#8C6B1C] shrink-0" />
-                        <span>Capacity: {ev.guestCapacity}</span>
+                        <span>Capacity: {ev.guestCapacity || (ev.capacity ? `${ev.capacity} Guests` : 'Customizable')}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Clock className="w-3.5 h-3.5 text-[#8C6B1C] shrink-0" />
-                        <span>{ev.timing}</span>
+                        <span>{ev.timing || ev.time || '06:00 PM - 11:30 PM'}</span>
                       </div>
                     </div>
                   </div>
