@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Calendar, 
   MapPin, 
@@ -122,6 +123,26 @@ export default function AdminEvents() {
     };
   }, []);
 
+  // Lock body scroll and handle Escape key when modals are open
+  useEffect(() => {
+    if (modalOpen || deleteId) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          if (modalOpen) setModalOpen(false);
+          if (deleteId) setDeleteId(null);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [modalOpen, deleteId]);
+
   // Filtered Events with robust category & search matching
   const filteredEvents = useMemo(() => {
     return events.filter(evt => {
@@ -221,7 +242,7 @@ export default function AdminEvents() {
   };
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6">
       
       {/* Toast Notification */}
       {toast && (
@@ -405,11 +426,14 @@ export default function AdminEvents() {
         </div>
       )}
 
-      {/* 4. Modal: Add New Event */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+      {/* 4. Modal: Add New Event (Portal to document.body for true viewport centering) */}
+      {modalOpen && typeof document !== 'undefined' && createPortal(
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md overflow-y-auto"
+          onClick={() => setModalOpen(false)}
+        >
           <div 
-            className="relative w-full max-w-2xl rounded-3xl bg-[#0D1527] border border-[#DFC07B]/40 shadow-2xl p-4 sm:p-8 text-white max-h-[92vh] overflow-y-auto"
+            className="relative w-full max-w-2xl my-auto rounded-3xl bg-[#0D1527] border border-[#DFC07B]/40 shadow-2xl p-4 sm:p-8 text-white max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -559,13 +583,20 @@ export default function AdminEvents() {
 
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* 5. Delete Confirm Modal */}
-      {deleteId && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-          <div className="w-full max-w-sm rounded-3xl bg-[#0D1527] border border-red-500/40 p-5 sm:p-6 text-white text-center">
+      {/* 5. Delete Confirm Modal (Portal to document.body) */}
+      {deleteId && typeof document !== 'undefined' && createPortal(
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+          onClick={() => setDeleteId(null)}
+        >
+          <div 
+            className="w-full max-w-sm rounded-3xl bg-[#0D1527] border border-red-500/40 p-5 sm:p-6 text-white text-center shadow-2xl my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Trash2 className="w-10 h-10 text-red-400 mx-auto mb-3" />
             <h3 className="font-serif-luxury text-lg font-bold mb-2">Delete this celebration showcase?</h3>
             <p className="text-xs text-[#8C7E6C] mb-6">
@@ -587,7 +618,8 @@ export default function AdminEvents() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>

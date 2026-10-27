@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Search, 
   Filter, 
@@ -209,8 +210,28 @@ export default function AdminEnquiries({
     document.body.removeChild(link);
   };
 
+  // Lock body scroll and handle Escape key when modals are open
+  useEffect(() => {
+    if (selectedEnquiry || enquiryToDelete) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          if (selectedEnquiry) setSelectedEnquiry(null);
+          if (enquiryToDelete) setEnquiryToDelete(null);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [selectedEnquiry, enquiryToDelete]);
+
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6">
       {/* 1. Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0F172A]/90 p-4 sm:p-6 rounded-3xl border border-[#DFC07B]/30 shadow-xl">
         <div>
@@ -636,10 +657,13 @@ export default function AdminEnquiries({
       </div>
 
       {/* 4. Full Enquiry Dossier Details Modal */}
-      {selectedEnquiry && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
+      {selectedEnquiry && typeof document !== 'undefined' && createPortal(
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md overflow-y-auto"
+          onClick={() => setSelectedEnquiry(null)}
+        >
           <div 
-            className="relative w-full max-w-2xl rounded-3xl bg-[#0D1527] border border-[#DFC07B]/40 shadow-2xl p-4 sm:p-8 text-white max-h-[92vh] overflow-y-auto"
+            className="relative w-full max-w-2xl my-auto rounded-3xl bg-[#0D1527] border border-[#DFC07B]/40 shadow-2xl p-4 sm:p-8 text-white max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -782,13 +806,20 @@ export default function AdminEnquiries({
             </div>
 
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* 5. Delete Confirmation Modal */}
-      {enquiryToDelete && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-          <div className="w-full max-w-md rounded-3xl bg-[#0D1527] border border-red-500/40 shadow-2xl p-5 sm:p-6 text-white text-center">
+      {enquiryToDelete && typeof document !== 'undefined' && createPortal(
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+          onClick={() => setEnquiryToDelete(null)}
+        >
+          <div 
+            className="w-full max-w-md rounded-3xl bg-[#0D1527] border border-red-500/40 shadow-2xl p-5 sm:p-6 text-white text-center my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="w-12 h-12 rounded-full bg-red-500/15 border border-red-500/40 flex items-center justify-center text-red-400 mx-auto mb-4">
               <AlertTriangle className="w-6 h-6" />
             </div>
@@ -817,7 +848,8 @@ export default function AdminEnquiries({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>
