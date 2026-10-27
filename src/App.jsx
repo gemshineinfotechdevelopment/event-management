@@ -17,7 +17,9 @@ import ImageLightboxModal from './components/modals/ImageLightboxModal';
 import EventDetailsModal from './components/modals/EventDetailsModal';
 import SearchModal from './components/modals/SearchModal';
 import FloatingWhatsApp from './components/common/FloatingWhatsApp';
-import { AdminLayout } from './admin';
+import { AdminLayout, AdminLogin } from './admin';
+import { useAdminAuth } from './context/AdminAuthContext';
+
 
 // Parse current route from window.location and clean up any legacy hashtags
 function resolveCurrentRoute() {
@@ -89,25 +91,45 @@ function resolveCurrentRoute() {
 }
 
 export default function App() {
+  const { isAuthenticated, logout } = useAdminAuth();
   const initialRoute = resolveCurrentRoute();
   const [currentView, setCurrentView] = useState(initialRoute.view);
   const [adminTab, setAdminTab] = useState(initialRoute.adminTab);
+
 
   const [consultationOpen, setConsultationOpen] = useState(false);
   const [initialCategory, setInitialCategory] = useState('Wedding');
   
   const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const [activeVideoId, setActiveVideoId] = useState('ZCWBvo0Ybew');
+  const [activeVideo, setActiveVideo] = useState({
+    videoId: 'ukndWsCg0ZY',
+    title: 'Traditional South Indian Wedding & Mandap Decor',
+    category: 'South Indian Wedding Decoration'
+  });
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [lightboxItem, setLightboxItem] = useState(null);
 
-  // Open video modal with optional specific video ID
-  const handleOpenVideo = (videoId = 'ZCWBvo0Ybew') => {
-    setActiveVideoId(typeof videoId === 'string' && videoId ? videoId : 'ZCWBvo0Ybew');
+  // Open video modal with optional specific video object or ID
+  const handleOpenVideo = (videoArg = 'ukndWsCg0ZY') => {
+    if (typeof videoArg === 'object' && videoArg !== null) {
+      setActiveVideo({
+        videoId: videoArg.id || videoArg.videoId || 'ukndWsCg0ZY',
+        title: videoArg.title || 'Traditional South Indian Wedding & Mandap Decor',
+        category: videoArg.tag || videoArg.category || 'South Indian Wedding Decoration'
+      });
+    } else {
+      setActiveVideo({
+        videoId: typeof videoArg === 'string' && videoArg ? videoArg : 'ukndWsCg0ZY',
+        title: 'Traditional South Indian Wedding & Mandap Decor',
+        category: 'South Indian Wedding Decoration'
+      });
+    }
     setVideoModalOpen(true);
   };
+
+
 
   // Open consultation modal with specified category
   const handleOpenConsultation = (category = 'Wedding') => {
@@ -204,15 +226,30 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // If viewing admin portal, render dedicated AdminLayout with clean URL path
+  // If viewing admin portal, protect with dummy authentication
   if (currentView === 'admin') {
+    if (!isAuthenticated) {
+      return (
+        <AdminLogin 
+          onLoginSuccess={() => {
+            // State update in context causes automatic transition to AdminLayout
+          }}
+          onBackToSite={() => handleNavigatePage('home')}
+        />
+      );
+    }
+
     return (
       <AdminLayout 
         onExitAdmin={() => handleNavigatePage('home')}
+        onLogout={() => {
+          logout();
+        }}
         initialTab={adminTab || 'dashboard'}
       />
     );
   }
+
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#2C241D] flex flex-col relative overflow-x-hidden selection:bg-[#E2C787] selection:text-[#1C1610]">
@@ -287,8 +324,11 @@ export default function App() {
       <VideoModal 
         isOpen={videoModalOpen} 
         onClose={() => setVideoModalOpen(false)} 
-        videoId={activeVideoId}
+        videoId={activeVideo.videoId}
+        title={activeVideo.title}
+        category={activeVideo.category}
       />
+
 
       <ImageLightboxModal 
         item={lightboxItem} 

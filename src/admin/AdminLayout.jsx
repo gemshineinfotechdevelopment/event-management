@@ -21,13 +21,24 @@ import {
 import { EventoraLogo } from '../components/common/Icons';
 import { api } from '../services/api';
 import { useSettings } from '../context/SettingsContext';
+import { useAdminAuth } from '../context/AdminAuthContext';
 import AdminDashboard from './AdminDashboard';
 import AdminEnquiries from './AdminEnquiries';
 import AdminEvents from './AdminEvents';
 import AdminSettings from './AdminSettings';
 
-export default function AdminLayout({ onExitAdmin, initialTab = 'dashboard' }) {
+export default function AdminLayout({ onExitAdmin, initialTab = 'dashboard', onLogout }) {
   const { settings, updateSettings } = useSettings();
+  const { adminUser, logout } = useAdminAuth();
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();
+    } else {
+      logout();
+    }
+  };
+
 
   const getTabFromPath = useCallback(() => {
     if (typeof window === 'undefined') return initialTab;
@@ -315,18 +326,55 @@ export default function AdminLayout({ onExitAdmin, initialTab = 'dashboard' }) {
           })}
         </div>
 
-        {/* Bottom Drawer Action: Exit to Live Website */}
-        <div className="p-3.5 sm:p-4 border-t border-white/10 space-y-2">
-          <button
-            onClick={() => {
-              setSidebarOpen(false);
-              onExitAdmin();
-            }}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-[#DFC07B] border border-[#DFC07B]/30 text-xs font-semibold transition-all cursor-pointer"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            <span>Return to Live Website</span>
-          </button>
+        {/* Bottom Drawer Actions: User Identity & Navigation */}
+        <div className="p-3 sm:p-4 border-t border-white/10 space-y-2.5">
+          {/* Admin User Info Card */}
+          <div className="p-2.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#DFC07B] to-[#ECCB7F] text-[#0A0E1A] font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                {adminUser?.avatar || 'AD'}
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-semibold text-white truncate leading-tight">
+                  {adminUser?.name || 'Atelier Director'}
+                </span>
+                <span className="text-[10px] text-[#A0988A] truncate mt-0.5">
+                  {adminUser?.email || 'admin@eventora.com'}
+                </span>
+              </div>
+            </div>
+            <span 
+              className="w-2 h-2 rounded-full bg-emerald-400 ring-4 ring-emerald-400/20 shrink-0" 
+              title="Active Atelier Session" 
+            />
+          </div>
+
+          {/* Quick Action Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => {
+                setSidebarOpen(false);
+                onExitAdmin();
+              }}
+              className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-[#DFC07B] border border-[#DFC07B]/30 text-xs font-semibold transition-all cursor-pointer"
+              title="Return to Live Website"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span className="truncate">Live Site</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setSidebarOpen(false);
+                handleLogout();
+              }}
+              className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 hover:text-red-200 border border-red-500/30 text-xs font-semibold transition-all cursor-pointer"
+              title="Log out of Atelier Admin"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="truncate">Log Out</span>
+            </button>
+          </div>
         </div>
 
       </aside>
@@ -373,15 +421,25 @@ export default function AdminLayout({ onExitAdmin, initialTab = 'dashboard' }) {
 
             <button
               onClick={onExitAdmin}
-              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-semibold border border-white/15 transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-semibold border border-white/15 transition-all cursor-pointer"
               title="View Live Website"
             >
               <ExternalLink className="w-3.5 h-3.5 text-[#DFC07B]" />
               <span className="hidden xs:inline">Live Site</span>
             </button>
+
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 hover:text-red-200 text-xs font-semibold border border-red-500/30 transition-all cursor-pointer"
+              title="Log out of Atelier Admin"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Log Out</span>
+            </button>
           </div>
 
         </header>
+
 
         {/* Toast Notification Bar */}
         {toastMessage && (

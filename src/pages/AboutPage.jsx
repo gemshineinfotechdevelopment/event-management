@@ -4,10 +4,10 @@ import { EventoraLogo } from '../components/common/Icons';
 import { Award, Heart, Star, Sparkles, ArrowRight } from 'lucide-react';
 
 const STATS = [
-  { value: '1,200+', label: 'Events Executed', desc: 'Across India & destination locales' },
+  { value: '1,000+', label: 'Events Executed', desc: 'Across India & destination locales' },
   { value: '99.8%', label: 'Client Delight', desc: 'Unwavering trust from families' },
   { value: '14+', label: 'Years of Mastery', desc: 'Pioneering luxury celebration design' },
-  { value: '25+', label: 'Industry Awards', desc: 'Recognized for wedding scenography' },
+  { value: '5+', label: 'Industry Awards', desc: 'Recognized for wedding scenography' },
 ];
 
 const VALUES = [

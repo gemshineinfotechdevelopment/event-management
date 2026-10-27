@@ -4,3 +4,5 @@ export { default as AdminEnquiries } from './AdminEnquiries';
 export { default as AdminSettings } from './AdminSettings';
 export { default as AdminEvents } from './AdminEvents';
 export { default as AdminAnalyticsChart } from './AdminAnalyticsChart';
+export { default as AdminLogin } from './AdminLogin';
+

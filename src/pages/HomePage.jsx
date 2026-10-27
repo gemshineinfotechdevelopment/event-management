@@ -5,7 +5,6 @@ import HomeServices from '../components/home/HomeServices';
 import HowItWorks from '../components/HowItWorks';
 import WhyChooseUs from '../components/WhyChooseUs';
 import HomeFeaturedEvents from '../components/home/HomeFeaturedEvents';
-import HomeVideoTeaser from '../components/home/HomeVideoTeaser';
 import VenueIdeasSection from '../components/VenueIdeasSection';
 import HomeAbout from '../components/home/HomeAbout';
 import HomeTestimonials from '../components/home/HomeTestimonials';
@@ -43,9 +42,6 @@ export default function HomePage({
         onNavigateEvents={onNavigateEvents}
         onOpenConsultation={onOpenConsultation}
       />
-
-      {/* 7. Cinematic Showreel Video Banner */}
-      <HomeVideoTeaser onOpenVideo={onOpenVideo} />
 
       {/* 8. Curated Venue Inspirations & Lightboxes */}
       <VenueIdeasSection
