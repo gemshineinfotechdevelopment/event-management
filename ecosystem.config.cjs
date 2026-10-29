@@ -14,7 +14,11 @@ module.exports = {
         CLIENT_URL: 'https://eventora.gemshine.tech',
         MONGODB_URI: 'mongodb://127.0.0.1:27017/eventora',
         DB_NAME: 'eventora',
-        WHATSAPP_OWNER_NUMBER: '919876543210'
+        WHATSAPP_OWNER_NUMBER: '919876543210',
+        JWT_SECRET: '7844808643f96f8757924b5e03fa6ceb7833279f2b4fd4528d1deaf9c39598ee',
+        ADMIN_USERNAME: 'admin',
+        ADMIN_PASSWORD: 'admin123',
+        ADMIN_EMAIL: 'admin@eventora.com'
       },
       env_development: {
         NODE_ENV: 'development',

@@ -1,69 +1,101 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { api } from '../services/api.js';
 
 const STORAGE_KEY = 'eventora_admin_auth';
-
-// Default dummy administrator profile
-const DEMO_ADMIN_USER = {
-  username: 'admin',
-  email: 'admin@eventora.com',
-  name: 'Atelier Director',
-  role: 'Super Administrator',
-  avatar: 'AD'
-};
 
 const AdminAuthContext = createContext({
   isAuthenticated: false,
   adminUser: null,
+  token: null,
+  loading: true,
   login: async () => ({ success: false }),
   logout: () => {},
   quickDemoLogin: () => {}
 });
 
 export function AdminAuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        return !!parsed?.token;
-      }
-    } catch (err) {
-      console.warn('Could not read admin auth state:', err);
-    }
-    return false;
-  });
-
-  const [adminUser, setAdminUser] = useState(() => {
+  const [token, setToken] = useState(() => {
     if (typeof window === 'undefined') return null;
     try {
       const stored = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        return parsed?.user || DEMO_ADMIN_USER;
+        return parsed?.token || null;
       }
-    } catch {
-      return null;
+    } catch (err) {
+      console.warn('Could not read admin token:', err);
     }
     return null;
   });
 
-  // Verify and sync storage across tabs or window events
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminUser, setAdminUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Validate stored token on mount with the backend
+  useEffect(() => {
+    let isMounted = true;
+
+    async function initializeAuth() {
+      const stored = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
+      if (!stored) {
+        if (isMounted) setLoading(false);
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed?.token) {
+          // Verify JWT with backend /api/auth/me
+          const response = await api.verifyAdminToken(parsed.token);
+          if (isMounted) {
+            if (response?.success && response?.user) {
+              setToken(parsed.token);
+              setAdminUser(response.user);
+              setIsAuthenticated(true);
+            } else {
+              // Token expired or invalid
+              localStorage.removeItem(STORAGE_KEY);
+              sessionStorage.removeItem(STORAGE_KEY);
+              setToken(null);
+              setAdminUser(null);
+              setIsAuthenticated(false);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Auth verification check failed:', err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+
+    initializeAuth();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Sync auth state across multiple browser tabs
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === STORAGE_KEY) {
         if (e.newValue) {
           try {
             const parsed = JSON.parse(e.newValue);
+            setToken(parsed?.token || null);
+            setAdminUser(parsed?.user || null);
             setIsAuthenticated(!!parsed?.token);
-            setAdminUser(parsed?.user || DEMO_ADMIN_USER);
           } catch {
-            setIsAuthenticated(false);
+            setToken(null);
             setAdminUser(null);
+            setIsAuthenticated(false);
           }
         } else {
-          setIsAuthenticated(false);
+          setToken(null);
           setAdminUser(null);
+          setIsAuthenticated(false);
         }
       }
     };
@@ -72,36 +104,19 @@ export function AdminAuthProvider({ children }) {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // Dummy login function
+  // Real Backend Authentication Login
   const login = useCallback(async (username, password, rememberMe = true) => {
-    // Artificial slight delay for realistic feel
-    await new Promise(resolve => setTimeout(resolve, 350));
+    try {
+      // Call backend /api/auth/login
+      const result = await api.loginAdmin(username, password);
 
-    const cleanUsername = String(username || '').trim().toLowerCase();
-    const cleanPassword = String(password || '').trim();
+      if (result?.success && result?.token) {
+        const authData = {
+          token: result.token,
+          user: result.user,
+          rememberMe
+        };
 
-    // Accepted dummy credentials
-    const validUsernames = ['admin', 'admin@eventora.com', 'director', 'demo', 'manager'];
-    const validPasswords = ['admin123', 'admin', 'eventora', 'eventora2025', 'director123'];
-
-    const isValidUser = validUsernames.includes(cleanUsername);
-    const isValidPass = validPasswords.includes(cleanPassword);
-
-    if (isValidUser && isValidPass) {
-      const userPayload = {
-        ...DEMO_ADMIN_USER,
-        username: cleanUsername.includes('@') ? cleanUsername.split('@')[0] : cleanUsername,
-        email: cleanUsername.includes('@') ? cleanUsername : 'admin@eventora.com',
-        loggedInAt: new Date().toISOString()
-      };
-
-      const authData = {
-        token: `demo_token_${Date.now()}_${Math.random().toString(36).substring(2)}`,
-        user: userPayload,
-        rememberMe
-      };
-
-      try {
         if (rememberMe) {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(authData));
           sessionStorage.removeItem(STORAGE_KEY);
@@ -109,22 +124,28 @@ export function AdminAuthProvider({ children }) {
           sessionStorage.setItem(STORAGE_KEY, JSON.stringify(authData));
           localStorage.removeItem(STORAGE_KEY);
         }
-      } catch (err) {
-        console.warn('Could not store auth data:', err);
+
+        setToken(result.token);
+        setAdminUser(result.user);
+        setIsAuthenticated(true);
+
+        return { success: true, user: result.user, token: result.token };
       }
 
-      setIsAuthenticated(true);
-      setAdminUser(userPayload);
-      return { success: true, user: userPayload };
+      return {
+        success: false,
+        error: result?.message || 'Authentication failed. Please check your credentials.'
+      };
+    } catch (err) {
+      console.error('Login error:', err);
+      return {
+        success: false,
+        error: err.message || 'Cannot connect to authentication service on backend.'
+      };
     }
-
-    return { 
-      success: false, 
-      error: 'Invalid atelier credentials. Use demo credentials: admin / admin123' 
-    };
   }, []);
 
-  // Quick 1-click Demo Login
+  // 1-Click Demo Login using default credentials against backend
   const quickDemoLogin = useCallback(async () => {
     return login('admin', 'admin123', true);
   }, [login]);
@@ -137,18 +158,23 @@ export function AdminAuthProvider({ children }) {
     } catch (err) {
       console.warn('Error clearing admin auth data:', err);
     }
+    setToken(null);
     setIsAuthenticated(false);
     setAdminUser(null);
   }, []);
 
   return (
-    <AdminAuthContext.Provider value={{
-      isAuthenticated,
-      adminUser,
-      login,
-      logout,
-      quickDemoLogin
-    }}>
+    <AdminAuthContext.Provider
+      value={{
+        isAuthenticated,
+        adminUser,
+        token,
+        loading,
+        login,
+        logout,
+        quickDemoLogin
+      }}
+    >
       {children}
     </AdminAuthContext.Provider>
   );

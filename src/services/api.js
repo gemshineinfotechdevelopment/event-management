@@ -317,5 +317,75 @@ export const api = {
       console.warn('Backend offline, saving settings in localStorage:', err.message);
       return { success: true, offline: true, data: settingsData };
     }
+  },
+
+  // Admin Login via Backend
+  async loginAdmin(username, password) {
+    try {
+      const res = await fetch(`${BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+      return data;
+    } catch (err) {
+      if (BASE_URL !== '/api') {
+        try {
+          const res2 = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+          const data2 = await res2.json();
+          if (res2.ok) return data2;
+          throw new Error(data2.message || 'Login failed');
+        } catch (err2) {
+          throw err2;
+        }
+      }
+      throw err;
+    }
+  },
+
+  // Verify Admin Token with Backend
+  async verifyAdminToken(token) {
+    try {
+      const res = await fetch(`${BASE_URL}/auth/me`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!res.ok) throw new Error('Token verification failed');
+      return await res.json();
+    } catch (err) {
+      if (BASE_URL !== '/api') {
+        try {
+          const res2 = await fetch('/api/auth/me', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (res2.ok) return await res2.json();
+        } catch {}
+      }
+      return null;
+    }
+  },
+
+  // Change Admin Password
+  async changeAdminPassword(token, currentPassword, newPassword) {
+    const res = await fetch(`${BASE_URL}/auth/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Failed to change password');
+    return data;
   }
 };

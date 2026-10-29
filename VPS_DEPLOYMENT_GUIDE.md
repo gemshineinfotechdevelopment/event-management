@@ -123,6 +123,15 @@ DB_NAME=eventora
 
 # Admin WhatsApp Phone Number (Format: with country code, e.g. 919876543210)
 WHATSAPP_OWNER_NUMBER=919876543210
+
+# JWT Secret Key for Backend Authentication
+JWT_SECRET=7844808643f96f8757924b5e03fa6ceb7833279f2b4fd4528d1deaf9c39598ee
+JWT_EXPIRES_IN=7d
+
+# Initial Admin Credentials (Auto-created in MongoDB on first boot)
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+ADMIN_EMAIL=admin@eventora.com
 ```
 Save and exit (`Ctrl + O`, `Enter`, `Ctrl + X`).
 

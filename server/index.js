@@ -10,6 +10,7 @@ import { connectDB } from './config/db.js';
 import eventsRouter from './routes/events.js';
 import enquiriesRouter from './routes/enquiries.js';
 import settingsRouter from './routes/settings.js';
+import authRouter, { seedDefaultAdmin } from './routes/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,8 +23,10 @@ const app = express();
 const PORT = process.env.PORT || 5023;
 const CLIENT_URL = process.env.CLIENT_URL || 'https://eventora.gemshine.tech';
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB and seed admin if needed
+connectDB().then(() => {
+  seedDefaultAdmin();
+});
 
 // Allowed Origins for CORS
 const allowedOrigins = [
@@ -78,6 +81,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // API Routes
+app.use('/api/auth', authRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/enquiries', enquiriesRouter);
 app.use('/api/settings', settingsRouter);
