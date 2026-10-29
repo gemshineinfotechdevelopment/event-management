@@ -7,7 +7,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import { connectDB } from './config/db.js';
-import eventsRouter from './routes/events.js';
+import eventsRouter, { seedInitialEvents } from './routes/events.js';
 import enquiriesRouter from './routes/enquiries.js';
 import settingsRouter from './routes/settings.js';
 import authRouter, { seedDefaultAdmin } from './routes/auth.js';
@@ -23,9 +23,10 @@ const app = express();
 const PORT = process.env.PORT || 5023;
 const CLIENT_URL = process.env.CLIENT_URL || 'https://eventora.gemshine.tech';
 
-// Connect to MongoDB and seed admin if needed
+// Connect to MongoDB and seed initial data if needed
 connectDB().then(() => {
   seedDefaultAdmin();
+  seedInitialEvents();
 });
 
 // Allowed Origins for CORS
