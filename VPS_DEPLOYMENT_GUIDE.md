@@ -84,21 +84,45 @@ npm install --prefix server
 
 ---
 
-### Step 4: Configure Server Environment (.env)
+### Step 4: Configure Environments (.env)
+
+#### 4A. Configure Frontend Environment (Root `.env` / `.env.production`)
+Vite embeds environment variables at compile/build time. Create the root `.env`:
 ```bash
-nano server/.env
+nano /var/www/eventora/.env
+```
+Add the following frontend variables:
+```env
+VITE_API_URL=https://eventora.gemshine.tech/api
+VITE_APP_NAME="Eventora - Luxury Event Management"
+VITE_APP_ENV=production
+VITE_DB_NAME=eventora
+VITE_WHATSAPP_NUMBER=919876543210
+```
+Save and exit (`Ctrl + O`, `Enter`, `Ctrl + X`).
+
+Now build the production frontend so Vite embeds these variables:
+```bash
+npm run build
+```
+
+#### 4B. Configure Backend Environment (`server/.env`)
+Node.js and PM2 read runtime environment variables from `server/.env`:
+```bash
+nano /var/www/eventora/server/.env
 ```
 Ensure the file has:
 ```env
 PORT=5023
 NODE_ENV=production
 CLIENT_URL=https://eventora.gemshine.tech
+
+# MongoDB Database Connection on VPS
 MONGODB_URI=mongodb://127.0.0.1:27017/eventora
 DB_NAME=eventora
 
+# Admin WhatsApp Phone Number (Format: with country code, e.g. 919876543210)
 WHATSAPP_OWNER_NUMBER=919876543210
-CALLMEBOT_API_KEY=
-WHATSAPP_WEBHOOK_URL=
 ```
 Save and exit (`Ctrl + O`, `Enter`, `Ctrl + X`).
 

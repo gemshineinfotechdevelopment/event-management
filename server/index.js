@@ -11,11 +11,12 @@ import eventsRouter from './routes/events.js';
 import enquiriesRouter from './routes/enquiries.js';
 import settingsRouter from './routes/settings.js';
 
-// Load environment variables from server/.env
-dotenv.config(); // auto-reload trigger
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables from server/.env, fallback to root .env
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 5023;

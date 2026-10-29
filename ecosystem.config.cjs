@@ -13,7 +13,8 @@ module.exports = {
         PORT: 5023,
         CLIENT_URL: 'https://eventora.gemshine.tech',
         MONGODB_URI: 'mongodb://127.0.0.1:27017/eventora',
-        DB_NAME: 'eventora'
+        DB_NAME: 'eventora',
+        WHATSAPP_OWNER_NUMBER: '919876543210'
       },
       env_development: {
         NODE_ENV: 'development',
