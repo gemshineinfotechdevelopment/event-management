@@ -25,8 +25,8 @@ import { PRIMARY_EVENTS } from '../data/eventsPageData';
 const PRESET_IMAGES = [
   { label: 'Royal Wedding', url: '/wedding.jpg' },
   { label: 'Grand Banquet', url: '/banquet.jpg' },
-  { label: 'Evening Soiree', url: '/cocktail.jpg' },
-  { label: 'Celebration Dinner', url: '/dinner.jpg' },
+  { label: 'Evening Soiree', url: '/privateparty.jpg' },
+  { label: 'Celebration Dinner', url: '/dining-centerpiece.jpg' },
   { label: 'Corporate Gala', url: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80' },
   { label: 'Music Festival', url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80' }
 ];
