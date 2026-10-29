@@ -1,8 +1,6 @@
 // WhatsApp Integration Utility for Eventora Enquiries
-
-// Configurable WhatsApp business phone number
-// Override via VITE_WHATSAPP_NUMBER in .env (format: Country code + number without +, e.g. 919876543210)
-export const WHATSAPP_PHONE_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '919876543210';
+// Note: Dynamic business phone number is fetched directly from database Settings
+export const WHATSAPP_PHONE_NUMBER = '919876543210';
 export const DISPLAY_PHONE_NUMBER = '+91 98765 43210';
 
 /**

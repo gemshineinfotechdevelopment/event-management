@@ -97,7 +97,6 @@ VITE_API_URL=https://eventora.gemshine.tech/api
 VITE_APP_NAME="Eventora - Luxury Event Management"
 VITE_APP_ENV=production
 VITE_DB_NAME=eventora
-VITE_WHATSAPP_NUMBER=919876543210
 ```
 Save and exit (`Ctrl + O`, `Enter`, `Ctrl + X`).
 
@@ -120,9 +119,6 @@ CLIENT_URL=https://eventora.gemshine.tech
 # MongoDB Database Connection on VPS
 MONGODB_URI=mongodb://127.0.0.1:27017/eventora
 DB_NAME=eventora
-
-# Admin WhatsApp Phone Number (Format: with country code, e.g. 919876543210)
-WHATSAPP_OWNER_NUMBER=919876543210
 
 # JWT Secret Key for Backend Authentication
 JWT_SECRET=7844808643f96f8757924b5e03fa6ceb7833279f2b4fd4528d1deaf9c39598ee

@@ -11,8 +11,8 @@ const __dirname = path.dirname(__filename);
 const SETTINGS_FILE = path.join(__dirname, '..', 'data', 'settings.json');
 
 const DEFAULT_SETTINGS = {
-  phone: process.env.WHATSAPP_OWNER_NUMBER ? `+${process.env.WHATSAPP_OWNER_NUMBER}` : '+91 98765 43210',
-  rawPhone: process.env.WHATSAPP_OWNER_NUMBER || '919876543210',
+  phone: '+91 98765 43210',
+  rawPhone: '919876543210',
   email: 'hello@eventora.com',
   address: 'The Royal Pavilion Atelier, Boat Club Road, R.A. Puram, Chennai, Tamil Nadu 600028',
   businessHours: 'Mon – Sat: 9:30 AM to 8:00 PM',
