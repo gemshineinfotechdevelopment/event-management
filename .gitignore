@@ -33,4 +33,4 @@ server/.env
 server/.env.local
 src/.env
 src/.env.local
-src/.env production
+src/.env.production
